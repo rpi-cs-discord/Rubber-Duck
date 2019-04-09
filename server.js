@@ -21,7 +21,7 @@ app.post('/pull-git', function(request, response) {
 
 function git_pull(){
   const { exec } = require('child_process');
-  exec('git fetch --all && git reset --hard origin/master', (err, stdout, stderr) => {
+  exec('cd Rubber-Duck && git fetch --all && git reset --hard origin/master', (err, stdout, stderr) => {
     if(err){return;}
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
