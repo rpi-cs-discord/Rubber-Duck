@@ -34,6 +34,9 @@ Make sure you are in the outer rubber-duck folder and run<br />
 ```
 $ npm start
 ```
+This project is powered by SISMAN technologies, a subdivision of the RPI Technologies Group.
+
+![](https://sis.rpi.edu/gengifs/nsis_logo.gif "SISMan")
 
 <!-- ### Contributors on GitHub
 * [Contributors](https://github.com/username/sw-name/graphs/contributors)
