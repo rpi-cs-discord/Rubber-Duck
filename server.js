@@ -1,3 +1,4 @@
+//test4
 require('dotenv').config();
 //Keeps the bot alive on glitch.com
 const http = require('http');
@@ -12,7 +13,7 @@ app.listen("3000");
 setInterval(() => {
   http.get('http://rubber-ducks-git-pull.glitch.me/');
 }, 120000);
-//test3
+
 app.post('/pull-git', function(request, response) {
   response.send("ok")//this line is needed
   console.log("Told to pull")
