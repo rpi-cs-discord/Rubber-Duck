@@ -12,7 +12,7 @@ app.listen("3000");
 setInterval(() => {
   // http.get('https://rubber-ducks-git-pull.glitch.me/');
 }, 120000);
-//test2
+//test3
 app.post('/pull-git', function(request, response) {
   response.send("ok")//this line is needed
   console.log("Told to pull")
