@@ -12,6 +12,13 @@
   "dependencies": {
     "express": "^4.16.4",
     "discord.js": "",
+    "bufferutil": "^3.0.3",
+    "erlpack": "discordapp/erlpack",
+    "node-opus": "^0.2.7",
+    "opusscript": "^0.0.6",
+    "sodium": "^2.0.3",
+    "libsodium-wrappers": "^0.7.3",
+    "uws": "^9.14.0",
     "request": "",
     "ffmpeg-binaries": "",
     "emoji-strip": "",
@@ -19,7 +26,8 @@
     "mathjax-node": "",
     "mathjax-node-svg2png": "",
     "tape": "",    
-    "image-downloader":""
+    "image-downloader":"",
+    "dotenv": ""
   },
   "engines": {
     "node": "8.x"

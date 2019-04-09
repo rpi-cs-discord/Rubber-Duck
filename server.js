@@ -1,3 +1,4 @@
+require('dotenv').config();
 //Keeps the bot alive on glitch.com
 const http = require('http');
 const express = require('express');
@@ -127,7 +128,7 @@ function rubberDuckMessageRecieved(msg){
   }
   
   if (msg.content.toLowerCase() == 'std::code();' || msg.content.toLowerCase() == '!code' || msg.content.toLowerCase().startsWith('std::code();')) {
-    var messageText = 'My code can be found here: <https://glitch.com/edit/#!/duck-bots>\nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667".  If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
+    var messageText = 'My code can be found here: <https://github.com/elihschiff/Rubber-Duck>\nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667".  If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
     delaySend(rubberDuck,msg,messageText,1000);
     return true;
   }
