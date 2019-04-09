@@ -27,7 +27,6 @@ function git_pull(){
     console.log(`stderr: ${stderr}`);
   });
 }
-console.log("running")
 
 
 var request = require('request');
