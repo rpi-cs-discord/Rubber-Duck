@@ -127,6 +127,4 @@ function testCountdown() {
     setTimeout(testCountdown, rand * 1000 * 60); 
   }
 }
-
-
 */
