@@ -40,8 +40,8 @@ const Discord = require('discord.js');
 const rubberDuck = new Discord.Client();
 const roboMallard = new Discord.Client();
 
-// rubberDuck.login(process.env.RD_TOKEN);
-// roboMallard.login(process.env.RM_TOKEN);
+rubberDuck.login(process.env.RD_TOKEN);
+roboMallard.login(process.env.RM_TOKEN);
 
 rubberDuck.archive_associations =  JSON.parse(fs.readFileSync('./Rubber-Duck/archive-channels.json', 'utf8'));
 
