@@ -1,3 +1,4 @@
+require('dotenv').config();
 //Keeps the bot alive on glitch.com
 const http = require('http');
 const express = require('express');
@@ -127,14 +128,14 @@ function rubberDuckMessageRecieved(msg){
   }
   
   if (msg.content.toLowerCase() == 'std::code();' || msg.content.toLowerCase() == '!code' || msg.content.toLowerCase().startsWith('std::code();')) {
-    var messageText = 'My code can be found here: <https://glitch.com/edit/#!/duck-bots>\nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667".  If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
+    var messageText = 'My code can be found here: <https://github.com/elihschiff/Rubber-Duck>\nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667".  If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
     delaySend(rubberDuck,msg,messageText,1000);
     return true;
   }
   
   // quack back at somebody code
   var rdd_id = process.env.RDD_ID;
-  if((msg.channel.id == rdd_id || msg.channel.type == "dm" || msg.content.toLowerCase().includes("<@" + rd_id + ">")) && !msg.author.bot){
+  if((msg.channel.id == rdd_id || msg.channel.id == process.env.BENS_SECRET_RUBBER_DUCK_DEBUGGING || msg.channel.type == "dm" || msg.content.toLowerCase().includes("<@" + rd_id + ">")) && !msg.author.bot){
     sendQuack(rubberDuck,msg);
   }
 }
@@ -269,7 +270,7 @@ function copyMessage(rubberDuck,msg,extra){
       //console.log(copy_association.copy)
       COPYSERVER.channels.get(copy_association.copy).send(theUserName + extra + ": " + theMsg, {files: attachment_urls});
     }
-  } else if(extra === "" && msg.channel.guild.id == copyServerId && !msg.author.bot){
+  } else if(extra === "" && msg.channel.guild.id == copyServerId && !msg.author.bot && msg.channel.id != process.env.BENS_SECRET_RUBBER_DUCK_DEBUGGING){
     var msgToSend = msg.content;
     var usingRubberDuck = true;
     if(!(msgToSend.startsWith("rd ") || msgToSend.startsWith("rm "))){
