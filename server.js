@@ -44,17 +44,17 @@ const roboMallard = new Discord.Client();
 rubberDuck.login(process.env.RD_TOKEN);
 roboMallard.login(process.env.RM_TOKEN);
 
-rubberDuck.archive_associations =  JSON.parse(fs.readFileSync('./Rubber-Duck/archive-channels.json', 'utf8'));
+rubberDuck.archive_associations =  JSON.parse(fs.readFileSync('./archive-channels.json', 'utf8'));
 
 var database;
-fs.readFile("./Rubber-Duck/database.json", 'utf8', function(err, contents) {
+fs.readFile("./database.json", 'utf8', function(err, contents) {
   database = JSON.parse(contents);
 
   emojiOnlyServers = database.emojiOnlyServers;
 })
 
 function saveDatbase(){
-  fs.writeFile("./Rubber-Duck/database.json", JSON.stringify(database), function(err, contents) {
+  fs.writeFile("./database.json", JSON.stringify(database), function(err, contents) {
   })
 }
 
