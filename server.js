@@ -5,6 +5,7 @@ const http = require('http');
 const express = require('express');
 var fs = require('fs');
 var request = require('request');
+var schedule = require('node-schedule');
 const app = express();
 app.get("/", (request, response) => {
   response.sendStatus(200);
@@ -45,7 +46,17 @@ roboMallard.login(process.env.RM_TOKEN);
 
 rubberDuck.archive_associations =  JSON.parse(fs.readFileSync('./Rubber-Duck/archive-channels.json', 'utf8'));
 
-var schedule = require('node-schedule');
+var database;
+fs.readFile("./Rubber-Duck/database.json", 'utf8', function(err, contents) {
+  database = JSON.parse(contents);
+
+  emojiOnlyServers = database.emojiOnlyServers;
+})
+
+function saveDatbase(){
+  fs.writeFile("./Rubber-Duck/database.json", JSON.stringify(database), function(err, contents) {
+  })
+}
 
 //Rubber Duck on ready
 rubberDuck.on('ready', () => {
@@ -234,6 +245,7 @@ function copyMessage(rubberDuck,msg,extra){
   if(msg.channel.type == "dm"){return;}
   if(msg.channel.id == "529143391552798720"){return;}
   if(msg.channel.id == "535583850210918420"){return;}
+  if(msg.channel.id == "565314139048771587"){return;}
 
 
   var copyServerId = "534134027280580632" // id of server messages are copied to
@@ -663,7 +675,7 @@ function getMan(rubberDuck, msg){
 
 
 var emojiStrip = require('emoji-strip')
-var emojiOnlyServers = {}
+var emojiOnlyServers = {};//gets set in database
 emojiOnlyServers["528998098274484254"]=true//#welcome
 
 function emojimode(client, msg){
@@ -680,6 +692,7 @@ function emojimode(client, msg){
         if(msg.content.toLowerCase() == "!emoji-off"){
           emojiOnlyServers[msg.channel.id]=true;
         }
+        saveDatbase();
         if(msg.content.toLowerCase() == "!emoji-h" || msg.content.toLowerCase() == "!emoji-on"  || msg.content.toLowerCase() == "!emoji-off"){
           msg.delete()
           return true;
@@ -691,59 +704,59 @@ function emojimode(client, msg){
         }
         return true;
       }
-    }//else{
-      if(emojiOnlyServers[msg.channel.id]){
-        if(msg.content.includes("<<") || msg.embeds.length > 0 || msg.attachments.size > 0){msg.delete(); return true;}
-        if(msg.content.includes("Hold up, my code can also be found at that link")){
-          msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
-          msg.delete();
-          return true;
-        }
-
-        var msgText = msg.content;
-        // console.log(msg.content);
-        msgText = emojiStrip(msgText)
-        msgText = msgText.replace("❤","")
-        msgText = msgText.replace("🅱","")
-        msgText = msgText.replace("🅰","")
-        msgText = msgText.replace("1⃣","")
-        msgText = msgText.replace("2⃣","")
-        msgText = msgText.replace("3⃣","")
-        msgText = msgText.replace("4⃣","")
-        msgText = msgText.replace("5⃣","")
-        msgText = msgText.replace("6⃣","")
-        msgText = msgText.replace("7⃣","")
-        msgText = msgText.replace("8⃣","")
-        msgText = msgText.replace("9⃣","")
-        msgText = msgText.replace("0⃣","")
-        if(msgText.match(/[0-9]{18}/g)){
-          msgText.match(/[0-9]{18}/g).map(function(val){
-            var url = "https://cdn.discordapp.com/emojis/"
-            url += val
-            request({
-              url: url,
-              json: true
-            }, function(error, response, body) {
-              if (!error && response.statusCode === 200) {
-              }else{
-                msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
-                msg.delete();
-                return true;
-              }
-            })
-          });
-        }
-        msgText = msgText.replace(new RegExp("\<:(.*?):[0-9]{18}\>","g"), "")
-        msgText = msgText.replace(/\s/g, '');
-        if((msgText.length > 0 || msg.content.indexOf("regional_indicator_")!=-1) && !(msg.author.id==process.env.BEN_ID || msg.author.id==process.env.ELI_ID)){
-          msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
-          msg.delete();
-          return true;
-        } else {
-          console.log(msg.content);
-        }
+    }
+    if(emojiOnlyServers[msg.channel.id] && !(msg.author.id==process.env.BEN_ID || msg.author.id==process.env.ELI_ID)){
+      if(msg.content.includes("<<") || msg.embeds.length > 0 || msg.attachments.size > 0){msg.delete(); return true;}
+      if(msg.content.includes("Hold up, my code can also be found at that link")){
+        msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
+        msg.delete();
+        return true;
       }
-    //}
+
+      var msgText = msg.content;
+      // console.log(msg.content);
+      msgText = emojiStrip(msgText)
+      msgText = msgText.replace("❤","")
+      msgText = msgText.replace("🅱","")
+      msgText = msgText.replace("🅰","")
+      msgText = msgText.replace("1⃣","")
+      msgText = msgText.replace("2⃣","")
+      msgText = msgText.replace("3⃣","")
+      msgText = msgText.replace("4⃣","")
+      msgText = msgText.replace("5⃣","")
+      msgText = msgText.replace("6⃣","")
+      msgText = msgText.replace("7⃣","")
+      msgText = msgText.replace("8⃣","")
+      msgText = msgText.replace("9⃣","")
+      msgText = msgText.replace("0⃣","")
+      if(msgText.match(/[0-9]{18}/g)){
+        msgText.match(/[0-9]{18}/g).map(function(val){
+          var url = "https://cdn.discordapp.com/emojis/"
+          url += val
+          request({
+            url: url,
+            json: true
+          }, function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+            }else{
+              msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
+              msg.delete();
+              return true;
+            }
+          })
+        });
+      }
+      msgText = msgText.replace(new RegExp("\<:(.*?):[0-9]{18}\>","g"), "")
+      msgText = msgText.replace(/\s/g, '');
+      if(msgText.length > 0){
+        msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
+        msg.delete();
+        return true;
+      } else {
+        console.log(msg.content);
+      }
+    }
+
   }
 }
 
