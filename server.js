@@ -135,7 +135,7 @@ function rubberDuckMessageRecieved(msg){
   
   // quack back at somebody code
   var rdd_id = process.env.RDD_ID;
-  if((msg.channel.id == rdd_id || msg.channel.type == "dm" || msg.content.toLowerCase().includes("<@" + rd_id + ">")) && !msg.author.bot){
+  if((msg.channel.id == rdd_id || msg.channel.id == process.env.BENS_SECRET_RUBBER_DUCK_DEBUGGING || msg.channel.type == "dm" || msg.content.toLowerCase().includes("<@" + rd_id + ">")) && !msg.author.bot){
     sendQuack(rubberDuck,msg);
   }
 }
@@ -270,7 +270,7 @@ function copyMessage(rubberDuck,msg,extra){
       //console.log(copy_association.copy)
       COPYSERVER.channels.get(copy_association.copy).send(theUserName + extra + ": " + theMsg, {files: attachment_urls});
     }
-  } else if(extra === "" && msg.channel.guild.id == copyServerId && !msg.author.bot){
+  } else if(extra === "" && msg.channel.guild.id == copyServerId && !msg.author.bot && msg.channel.id != process.env.BENS_SECRET_RUBBER_DUCK_DEBUGGING){
     var msgToSend = msg.content;
     var usingRubberDuck = true;
     if(!(msgToSend.startsWith("rd ") || msgToSend.startsWith("rm "))){
