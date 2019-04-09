@@ -8,10 +8,27 @@ const app = express();
 app.get("/", (request, response) => {
   response.sendStatus(200);
 });
-app.listen(process.env.PORT);
+app.listen("3000");
 setInterval(() => {
-  http.get('http://duck-bots.glitch.me/');
+  // http.get('https://rubber-ducks-git-pull.glitch.me/');
 }, 120000);
+
+app.post('/pull-git', function(request, response) {
+  response.send("ok")//this line is needed
+  console.log("Told to pull")
+  git_pull();
+});
+
+function git_pull(){
+  const { exec } = require('child_process');
+  exec('git fetch --all && git reset --hard origin/master', (err, stdout, stderr) => {
+    if(err){return;}
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
+}
+console.log("running")
+
 
 var request = require('request');
 
@@ -23,10 +40,10 @@ const Discord = require('discord.js');
 const rubberDuck = new Discord.Client();
 const roboMallard = new Discord.Client();
 
-rubberDuck.login(process.env.RD_TOKEN);
-roboMallard.login(process.env.RM_TOKEN);
+// rubberDuck.login(process.env.RD_TOKEN);
+// roboMallard.login(process.env.RM_TOKEN);
 
-rubberDuck.archive_associations =  JSON.parse(fs.readFileSync('archive-channels.json', 'utf8'));
+rubberDuck.archive_associations =  JSON.parse(fs.readFileSync('./Rubber-Duck/archive-channels.json', 'utf8'));
 
 var schedule = require('node-schedule');
 
@@ -39,8 +56,8 @@ rubberDuck.on('ready', () => {
   //rubberDuck.guilds.get(process.env.DEFAULT_SERVER).members.forEach(member => console.log(member.id));
   // .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
   //.catch(console.error);
-  
-  
+
+
   // var server = rubberDuck.guilds.get(process.env.DEFAULT_SERVER);
   // // console.log(server.members[0])
   // for (var member in server.members)
@@ -65,7 +82,7 @@ rubberDuck.on('message', msg => {
 
 rubberDuck.on('messageUpdate', (oldmes,newmes) => {
   copyMessage(rubberDuck,newmes," (EDITED)");
-  
+
     if(emojimode(rubberDuck,newmes)){return true;}
 });
 
@@ -83,8 +100,8 @@ function bothMessageReceived(msg, botClient){
 //code that runs just rubber duck on a message being sent
 function rubberDuckMessageRecieved(msg){
   copyMessage(rubberDuck,msg,""); // must be first
-  
-  
+
+
   if(emojimode(rubberDuck,msg)){return true;}
   if(latexGet(rubberDuck,msg)){return true;}
   if(latexGet2(rubberDuck,msg)){return true;}
@@ -94,7 +111,7 @@ function rubberDuckMessageRecieved(msg){
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
   if(pdfToPng(rubberDuck,msg)){return true;}
-  
+
   // http://damour.me/regionalIndicatorConverter
   if (msg.content.toLowerCase() == "school of computing") {
     async function react(){
@@ -115,24 +132,24 @@ function rubberDuckMessageRecieved(msg){
   if (msg.content.toLowerCase().startsWith('!academic integrity') || msg.content.toLowerCase().startsWith('!ai')) {
     delaySend(rubberDuck,msg,"Please do not share any class related code on this server.  If you see any code please PM an admin to have it removed. \nAlso make sure you are following the Academic Integrity as stated here: http://www.cs.rpi.edu/academics/courses/spring19/csci1200/academic_integrity.php" ,1000);
     return true;
-  }  
-  
+  }
+
   if (msg.content.toLowerCase() == 'std::code()') {
     delaySend(rubberDuck,msg,"expected ';' after 'code'" ,1000);
     return true;
   }
-  
+
   if (msg.content.toLowerCase() == 'std::code;' || msg.content.toLowerCase() == 'std::code') {
     delaySend(rubberDuck,msg,"statement is a reference, not call, to function 'code' [-Waddress]" ,1000);
     return true;
   }
-  
+
   if (msg.content.toLowerCase() == 'std::code();' || msg.content.toLowerCase() == '!code' || msg.content.toLowerCase().startsWith('std::code();')) {
     var messageText = 'My code can be found here: <https://github.com/elihschiff/Rubber-Duck>\nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667".  If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
     delaySend(rubberDuck,msg,messageText,1000);
     return true;
   }
-  
+
   // quack back at somebody code
   var rdd_id = process.env.RDD_ID;
   if((msg.channel.id == rdd_id || msg.channel.id == process.env.BENS_SECRET_RUBBER_DUCK_DEBUGGING || msg.channel.type == "dm" || msg.content.toLowerCase().includes("<@" + rd_id + ">")) && !msg.author.bot){
@@ -147,11 +164,11 @@ function roboMallardMessageRecieved(msg){
     delaySend(roboMallard,msg,messageText,2000);
     return true;
   }
-  
+
   if (msg.channel.type == "dm" && !msg.author.bot && Math.random() > .8) {
     sendQuack(roboMallard,msg);
   }
-  
+
 }
 
 //msg = the message object
@@ -162,7 +179,7 @@ function roboMallardMessageRecieved(msg){
 function delaySend(botClient, msg, messageText, delay, chatID){
   if(msg){var theChannel = botClient.channels.get(msg.channel.id);}
   if(chatID){theChannel = botClient.channels.get(chatID);}
-  
+
   theChannel.startTyping();
   setTimeout(function(){
     theChannel.send(messageText);
@@ -171,7 +188,7 @@ function delaySend(botClient, msg, messageText, delay, chatID){
 }
 
 //sends a quack
-var quacks = JSON.parse(fs.readFileSync('quacks.json', 'utf8'));//load in quacks from json file
+var quacks = JSON.parse(fs.readFileSync('./Rubber-Duck/quacks.json', 'utf8'));//load in quacks from json file
 function sendQuack(botClient, msg){
   var messageText = quacks.generic_quacks[Math.floor(Math.random() * quacks.generic_quacks.length)];
   // messageText = "psyduck"
@@ -192,12 +209,12 @@ function sendQuack(botClient, msg){
 function midnightCountdown(endDayOfWeek, endText, channelID, botClient){
   // sunday == 1
   var time = ' 59 4 * * ' + endDayOfWeek; // make sure time does not have seconds on it but does have space at start
-  
+
   schedule.scheduleJob(59+time, function(){botClient.channels.get(channelID).startTyping();});
   for(let i=0;i<10;i++){
     schedule.scheduleJob(59-i+time, function(){botClient.channels.get(channelID).send((i+1))});
   }
-  
+
   time = '0 0 5 * * ' + endDayOfWeek;
   schedule.scheduleJob(time, function(){
     botClient.channels.get(channelID).send(endText);
@@ -212,29 +229,29 @@ function copyMessage(rubberDuck,msg,extra){
   if(msg.channel.type == "dm"){return;}
   if(msg.channel.id == "529143391552798720"){return;}
   if(msg.channel.id == "535583850210918420"){return;}
-  
+
 
   var copyServerId = "534134027280580632" // id of server messages are copied to
   var COPYSERVER = rubberDuck.guilds.get(copyServerId);
-  
+
   if(msg.channel.guild.id == process.env.DEFAULT_SERVER) {
     // console.log(msg.author.lastMessage)
     // console.log(msg.author.lastMessage.member)
     var theUserName = msg.author.lastMessage.member.nickname + ' (' + msg.author.lastMessage.member.id + ')';
     if(!theUserName){theUserName = msg.author.username + ' (' + msg.author.id + ')';}
-    
+
     var theMsg = msg.content;
     //console.log(theMsg);
     theMsg = theMsg.replace("<@226503278760820746>", "(@)Eli");
     theMsg = theMsg.replace("<@141900800095027201>", "@Phi11ipus");
     theMsg = theMsg.replace("@here", "(at)here");
     theMsg = theMsg.replace("@everyone", "(at)everyone");
-    
+
     var attachment_urls = []
     msg.attachments.forEach(attachment => {
       attachment_urls.push(attachment.url);
     });
-    
+
     var copy_association = rubberDuck.archive_associations.find(association => association.original == msg.channel.id);
     if (copy_association == undefined) {
       // Check for the parent
@@ -310,7 +327,7 @@ function copyMessage(rubberDuck,msg,extra){
 
       return theName2;
     })
-    
+
     //send message
     if(usingRubberDuck){
       delaySend(rubberDuck, null, msgToSend, 1000, id);
@@ -324,7 +341,7 @@ function copyMessage(rubberDuck,msg,extra){
 var classRoles = ["Incoming Freshman", "Freshman","Sophomore","Junior","Senior","Grad Student","Alumnus",".","Advanced Computer Graphics","Algorithmic Robotics","Beginning Programming for Engineers","Cognitive Modeling I","Comp Org","Computational Biology","Computational Optimization","CS1","Data Analytics","Data and Society","Database Systems","Design and Analysis of Algorithms","Distributed Computing Over The Internet","DS","Economics and Computation","FOCS","Game Development II","Integer and Combinatorial Optimization","Intro Algo","Introduction to Data Mathematics","Intro to AI","Intro to Computer Programming","Intro to Network Science", "Large-Scale Matrix Comp & ML","MBE", "NLP","NumComp","OpSys","OSS","Parallel Programming","Principles of Program Analysis","PSoft","Readings in Computer Science","Readings in CSCI","Selmer","SD&D","Software Verification","Times Series Analysis","Web Science Systems Dev","Xinformatics"]//must match name exactly
 function addRoles(rubberDuck,msg){
   var server = rubberDuck.guilds.get(process.env.DEFAULT_SERVER);
-  
+
   if(msg.channel.type == "dm"){
     //console.log(msg.author.name + ": " + msg.content)
     if(msg.content.toLowerCase() == "!help"){
@@ -338,15 +355,15 @@ function addRoles(rubberDuck,msg){
                       );
       return true;
     }
-    
+
     if(msg.content.toLowerCase() == "!rules"){
       msg.channel.send(
                         'TBD but for now be nice, don\'t cheat, and most importantly:\nQuack'
                       );
       return true;
     }
-    
-    
+
+
     if(msg.content.startsWith("!classes")){
       var roleNames = "**";
       for(var i=0;i<classRoles.length;i++){
@@ -364,7 +381,7 @@ function addRoles(rubberDuck,msg){
       msg.channel.send('If you are in a class which is not listed above, please message "@Eli#8092" or "Phi11ipus#4667".');
       return true;
     }
-    
+
     if(msg.content.toLowerCase() == "!add all-seer"){
       msg.channel.send('You are now an All-Seer. But remember, with great power comes great responsibility and a lot of notifications!\nAlso, even as an All-Seer, please keep your class list up to date to let others know which classes you are enrolled in.\nIf you don\'t want to be an All-Seer anymore, just type "!remove All-Seer"');
       server.members.get(msg.author.id).addRole(server.roles.find(role => role.name === "All-Seer").id)
@@ -375,11 +392,11 @@ function addRoles(rubberDuck,msg){
       server.members.get(msg.author.id).removeRole(server.roles.find(role => role.name === "All-Seer").id)
       return true;
     }
-    
+
     if(msg.content.startsWith("!add ")){
       var roleName = msg.content.substring(msg.content.indexOf(' ') + 1).toLowerCase()
       for(var i=0;i<classRoles.length;i++){
-        if(classRoles[i].toLowerCase() == roleName){         
+        if(classRoles[i].toLowerCase() == roleName){
           // todo add message if they already have that role
           //console.log(msg.author.id)
           msg.channel.send('You have been added to the class "' + classRoles[i] + '"');
@@ -390,15 +407,15 @@ function addRoles(rubberDuck,msg){
       msg.channel.send('I cannot find **' + roleName + '**, double check your spelling and try again. If this is a CS class at RPI but it is not in the current list of classes please message "@Eli#8092" or "Phi11ipus#4667".');
       return true;
     }
-    
+
     if(msg.content.startsWith("!add")){
       msg.channel.send('Use this command to add a role for any class you are currently in for example:\n`!add DS`');
     }
-    
+
     if(msg.content.startsWith("!remove ")){
       var roleName = msg.content.substring(msg.content.indexOf(' ') + 1).toLowerCase();
       for(var i=0;i<classRoles.length;i++){
-        if(classRoles[i].toLowerCase() == roleName){         
+        if(classRoles[i].toLowerCase() == roleName){
           // todo add message if they already have that role
           msg.channel.send('You have been removed from the class "' + classRoles[i] + '"');
           server.members.get(msg.author.id).removeRole(server.roles.find(role => role.name === classRoles[i]).id)
@@ -408,7 +425,7 @@ function addRoles(rubberDuck,msg){
       msg.channel.send('Could not find a class named "' + roleName + '"');
       return true;
     }
-    
+
     if(msg.content.startsWith("!remove")){
       msg.channel.send('Use this command to remove a class role you are currently assigned to for example:\n`!remove DS`');
     }
@@ -420,7 +437,7 @@ function addRoles(rubberDuck,msg){
 }
 
 rubberDuck.on("presenceUpdate", (oldMember, newMember) => {
-    if(oldMember.presence.status !== newMember.presence.status){      
+    if(oldMember.presence.status !== newMember.presence.status){
       let roles = newMember.roles.array();
       let valid = true;
       for (let i=0; i<roles.length; i++) {
@@ -429,7 +446,7 @@ rubberDuck.on("presenceUpdate", (oldMember, newMember) => {
            break;
         }
       }
-      
+
       if (valid) rubberDuck.channels.get('534135329058324482').send(newMember.user.username + ' (' + newMember.id +')' + ' is now ' + newMember.presence.status )
     }
 });
@@ -439,7 +456,7 @@ rubberDuck.on('guildMemberAdd', member => {
 //                   + 'To add a class, please message me "!add **CLASS NAME**".  The available classes are:';
 
 //   for(var i=0;i<classRoles.length;i++){
-//     messageText += " " + classRoles[i] 
+//     messageText += " " + classRoles[i]
 //     if(i+1<classRoles.length){ messageText +=  ","; }
 //   }
 
@@ -457,8 +474,8 @@ rubberDuck.on('guildMemberAdd', member => {
         // description: roles
       }}
       embedObj.embed.description = roleNames;
-      
-      
+
+
       var messageText = "Hi there! Welcome to the RPI Computer Science Discord Server. As you might’ve noticed, things look a little empty over there! Let’s fix that by giving you some class specific roles.\n"
                   + 'To add a class, please message me `!add CLASS NAME`.  (You can view the list of classes below or with the command `!classes`)';
 
@@ -466,14 +483,14 @@ rubberDuck.on('guildMemberAdd', member => {
   messageText += '\nTo remove a class, please message me `!remove CLASS NAME`.'
   messageText +='\nIf you want to see the chats for all classes you can also `!add All-Seer`'
   messageText += '\nIf you have any questions feel free to message in the random/welcome chats or PM one of the admins, also to view the commands again type `!help`.\nOnce again, welcome!'
-  
-  
-  
-  
-  
+
+
+
+
+
   member.send(messageText);
   member.send(embedObj);
-  delaySend(rubberDuck, null, "Welcome <@" + member.id + ">! Make sure to check your PM for how to view private class-specific chats.",1000, "528998098274484254"); 
+  delaySend(rubberDuck, null, "Welcome <@" + member.id + ">! Make sure to check your PM for how to view private class-specific chats.",1000, "528998098274484254");
   //console.log(member.id);
 });
 
@@ -481,10 +498,10 @@ function newClassMaker(msg){
   if (msg.author.id == process.env.ELI_ID || msg.author.id == process.env.BEN_ID) {
     if (msg.content.startsWith('\\gen_class')) {
       var SERVER = rubberDuck.guilds.get(process.env.DEFAULT_SERVER);
-      
+
       var className = msg.content.substring(msg.content.indexOf(' ') + 1);
       msg.channel.send('Generating ' + className);
-      
+
       // GENERATE ROLES
       var allseer = SERVER.roles.find(role => role.name === "All-Seer")
       var permissionOverwrites = [{
@@ -513,7 +530,7 @@ function newClassMaker(msg){
           }
         });
       });
-      
+
       return true;
     }
   }
@@ -540,13 +557,13 @@ function latexGet(client, msg){
   if(!(msg.content.startsWith("@tex ") || msg.content.startsWith("$tex")|| msg.content.startsWith("?tex ")|| msg.content.startsWith("#tex ")|| msg.content.startsWith("!tex:")|| msg.content.startsWith("!tex ") || msg.content.startsWith("=tex ")) || msg.content.indexOf(' ') == -1 ){
      return false;
   }
-  
+
   var number = msg.content.substring(msg.content.indexOf(':') + 1,msg.content.indexOf(' '))
   number = parseInt(number, 10);
   if(isNaN(number)){number = 600;}
   if(number>2000){number=2001;}
   if(number<=0){number=1;}
-    
+
   request({
     uri: "http://latex2png.com/",
     method: "POST",
@@ -564,9 +581,9 @@ function latexGet(client, msg){
         file: "http://latex2png.com/output//"+match[0]
     });
   });
-  
-  
-  
+
+
+
   return true;
 }
 
@@ -575,7 +592,7 @@ function latexGet2(client, msg){
   if(!(msg.content.startsWith("!tex2"))){
      return false;
   }
-  
+
   var packages = "\\usepackage{amsmath} \\usepackage{amsthm} \\usepackage{amsfonts} \\usepackage{amssymb} \\usepackage{tikz} \\usepackage{CJKutf8} \\usepackage[utf8]{inputenc}";
   console.log(msg.content.substring(5))
   request({
@@ -591,7 +608,7 @@ function latexGet2(client, msg){
       preamble: packages,
       errors: 1,
       rnd: 123
-      
+
     }
   }, function(error, response, body) {
     var myregexp = /https:(.*)png/;
@@ -605,26 +622,26 @@ function latexGet2(client, msg){
     });
     console.log(match[0]);
   });
-  
-  
-  
+
+
+
   return true;
 }
 
 // latexGet3();
 
-function latexGet3(client, msg){  
+function latexGet3(client, msg){
   if(!(msg.content.startsWith("!tex3"))){
      return false;
   }
-  
+
   var tape = require('tape');
   var typeset = require("mathjax-node-svg2png").typeset;
   var options = {
-    math: msg.content.substring(5), 
-    format:'TeX', 
-    svg: false, 
-    png:true, 
+    math: msg.content.substring(5),
+    format:'TeX',
+    svg: false,
+    png:true,
     scale: 10,
     styles: {
 
@@ -644,7 +661,7 @@ function latexGet3(client, msg){
 
     }
   };
-  typeset(options, function (result) {        
+  typeset(options, function (result) {
     var base64Data = result.png.replace(/^data:image\/png;base64,/, "");
     require("fs").writeFile("latex_output.png", base64Data, 'base64', function(err) {
       msg.channel.send("",{
@@ -663,7 +680,7 @@ function getMan(rubberDuck, msg){
   }
   var page = msg.content.substring(msg.content.indexOf(' ') + 1);
   page = encodeURIComponent(page);
-  
+
   var request = require("request")
   var url = "http://man.he.net/?topic=" + page + "&section=all"
   //console.log(url)
@@ -671,7 +688,7 @@ function getMan(rubberDuck, msg){
     url: url,
     json: true
   }, function(error, response, body) {
-    
+
     //console.log(body);
     if(body.includes('No matches for "') || body.includes('Invalid characters in name')){
        return false;
@@ -680,7 +697,7 @@ function getMan(rubberDuck, msg){
       return true;
      }
   })
-  
+
   return true;
 }
 
@@ -692,7 +709,7 @@ emojiOnlyServers["486603514324320256"]=true//memes
 
 function emojimode(client, msg){
   if(msg.channel.type == "dm" || msg.author.bot){return false;}
-  
+
   if(msg.channel.guild.id == process.env.DEFAULT_SERVER || msg.channel.guild.id == "439858181083234314") {//439858181083234314==my bot test server
     if (msg.author.id == process.env.ELI_ID || msg.author.id == process.env.BEN_ID) {
       if (msg.content.toLowerCase() == "!emoji" || msg.content.toLowerCase() == "!emoji-h" || msg.content.toLowerCase() == "!emoji-on" || msg.content.toLowerCase() == "!emoji-off"){
@@ -720,10 +737,10 @@ function emojimode(client, msg){
         if(msg.content.includes("<<") || msg.embeds.length > 0 || msg.attachments.size > 0){msg.delete(); return true;}
         if(msg.content.includes("Hold up, my code can also be found at that link")){
           msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
-          msg.delete(); 
+          msg.delete();
           return true;
         }
-        
+
         var msgText = msg.content;
         // console.log(msg.content);
         msgText = emojiStrip(msgText)
@@ -751,7 +768,7 @@ function emojimode(client, msg){
               if (!error && response.statusCode === 200) {
               }else{
                 msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
-                msg.delete(); 
+                msg.delete();
                 return true;
               }
             })
@@ -761,7 +778,7 @@ function emojimode(client, msg){
         msgText = msgText.replace(/\s/g, '');
         if((msgText.length > 0 || msg.content.indexOf("regional_indicator_")!=-1) && !(msg.author.id==process.env.BEN_ID || msg.author.id==process.env.ELI_ID)){
           msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
-          msg.delete(); 
+          msg.delete();
           return true;
         } else {
           console.log(msg.content);
@@ -788,7 +805,7 @@ function unchaos(client) {
 
 function minecraft(client, msg){
   if (msg.content.toLowerCase() != "!minecraft" && msg.content.toLowerCase() != "!mc" && msg.content.toLowerCase() != "!ip"){return false;}
-  
+
   var url = "https://mcapi.us/server/status?ip="+process.env.MINECRAFT_IP
   request({
     url: url,
@@ -797,14 +814,14 @@ function minecraft(client, msg){
     if (!error && response.statusCode === 200) {
       var online="Offline"
       if(body.online){online="Online";}
-      
+
       msg.channel.send("", {embed: {
           color: 0x3e5c20,
           author: {
             name: "⁠",
             icon_url: "https://discordemoji.com/assets/emoji/grassblock.png"
           },
-         
+
           description: "**IP: ** "+process.env.MINECRAFT_IP+"\n**Status: **" + online +"\n**Players: **" + body.players.now +"/"+body.players.max,
           footer: {
             text: "Minecraft server is courtesy of @" + rubberDuck.guilds.get(process.env.DEFAULT_SERVER).members.get(process.env.MINECRAFT_HOST_ID).user.username
@@ -821,9 +838,9 @@ function pdfToPng(client, msg){
   if(!msg.content.toLowerCase().startsWith("!png")){return false;}
   var files = Array.from(msg.attachments.values());
   // console.log(files[0].url)
-  
-  
-  
+
+
+
 //   var options = {
 //     url: files[0].url,
 //     dest: 'output/input.pdf'
@@ -835,7 +852,7 @@ function pdfToPng(client, msg){
 //   .catch((err) => {
 //     console.error(err)
 //   })
-  
+
 //   var pdftoimage = require('pdftoimage');
 //   var file = 'output/input.pdf';
 
