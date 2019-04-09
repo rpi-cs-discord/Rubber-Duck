@@ -668,7 +668,6 @@ function getMan(rubberDuck, msg){
 var emojiStrip = require('emoji-strip')
 var emojiOnlyServers = {}
 emojiOnlyServers["528998098274484254"]=true//#welcome
-emojiOnlyServers["486603514324320256"]=true//memes
 
 function emojimode(client, msg){
   if(msg.channel.type == "dm" || msg.author.bot){return false;}
