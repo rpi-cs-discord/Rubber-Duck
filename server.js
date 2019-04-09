@@ -245,7 +245,7 @@ function copyMessage(rubberDuck,msg,extra){
   if(msg.channel.type == "dm"){return;}
   if(msg.channel.id == "529143391552798720"){return;}
   if(msg.channel.id == "535583850210918420"){return;}
-  if(msg.channel.id == "565314139048771587"){return;}
+  if(msg.channel.id == "565282451749076993"){return;}
 
 
   var copyServerId = "534134027280580632" // id of server messages are copied to
