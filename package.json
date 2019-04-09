@@ -1,15 +1,10 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
-  "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
-  "main": "server.js",
+  "main": "Rubber-Duck/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node Rubber-Duck/server.js"
   },
   "dependencies": {
+    "dotenv": "",
     "express": "^4.16.4",
     "discord.js": "",
     "bufferutil": "^3.0.3",
@@ -22,23 +17,10 @@
     "request": "",
     "ffmpeg-binaries": "",
     "emoji-strip": "",
-    "node-schedule": "",
-    "mathjax-node": "",
-    "mathjax-node-svg2png": "",
-    "tape": "",    
-    "image-downloader":"",
-    "dotenv": ""
+    "node-schedule": ""
   },
   "engines": {
     "node": "8.x"
   },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
-  },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+  "license": "MIT"
 }
