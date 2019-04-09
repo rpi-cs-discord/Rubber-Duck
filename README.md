@@ -16,7 +16,7 @@ After you are done your folder structure should look like this
 ```
 rubber-duck
   ├─── Rubber-Duck
-  │       ├───package.json
+  │       ├─── https://glitch.com/edit/#!/rubber-ducks-git-pullpackage.json
   │       └─── ...
   ├─── node_modules
   │       └─── ...
@@ -31,7 +31,8 @@ All changes to package.json must be made to both versions in order for the bot t
 
 ## Running the bot
 Make sure you are in the outer rubber-duck folder and run<br />
-```$ npm start
+```
+$ npm start
 ```
 
 <!-- ### Contributors on GitHub
