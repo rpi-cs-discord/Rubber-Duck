@@ -8,3 +8,6 @@ node_modules/
 .env
 .env.test
 
+# dont save database files
+archive-channels.json
+database.json
