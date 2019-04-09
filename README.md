@@ -22,7 +22,6 @@ rubber-duck
   │       └─── ...
   ├─── .env
   └─── package.json
-
 ```
 
 
