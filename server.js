@@ -68,10 +68,7 @@ rubberDuck.on('ready', () => {
 //Robo Mallard on ready
 roboMallard.on('ready', () => {
   console.log('Robo Mallard Online')
-  roboMallard.user.setActivity('');//'you do homework 6', {
-  //  type: 'WATCHING'
-  //})
-  //unchaos(roboMallard)
+  roboMallard.user.setActivity('');
 });
 
 //Rubber Duck on message
