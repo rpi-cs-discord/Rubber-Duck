@@ -102,6 +102,7 @@ function rubberDuckMessageRecieved(msg){
   copyMessage(rubberDuck,msg,""); // must be first
 
 
+  if(updateBot(rubberDuck,msg)){return true;}
   if(emojimode(rubberDuck,msg)){return true;}
   if(latexGet(rubberDuck,msg)){return true;}
   if(latexGet2(rubberDuck,msg)){return true;}
@@ -169,6 +170,15 @@ function roboMallardMessageRecieved(msg){
     sendQuack(roboMallard,msg);
   }
 
+}
+
+
+function updateBot(rubberDuck,msg){
+  if (msg.content.toLowerCase() == '!update' && (msg.author.id == process.env.ELI_ID || msg.author.id == process.env.BEN_ID)){
+    msg.channel.send("Updating the bot, this may take a few seconds please stand by.");
+    git_pull();
+    return true;
+  }
 }
 
 //msg = the message object
