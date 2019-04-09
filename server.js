@@ -106,12 +106,10 @@ function rubberDuckMessageRecieved(msg){
   if(emojimode(rubberDuck,msg)){return true;}
   if(latexGet(rubberDuck,msg)){return true;}
   if(latexGet2(rubberDuck,msg)){return true;}
-  if(latexGet3(rubberDuck,msg)){return true;}
   if(newClassMaker(msg)){return true;}
   if(addRoles(rubberDuck,msg)){return true;}
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
-  if(pdfToPng(rubberDuck,msg)){return true;}
 
   // http://damour.me/regionalIndicatorConverter
   if (msg.content.toLowerCase() == "school of computing") {
@@ -638,51 +636,6 @@ function latexGet2(client, msg){
   return true;
 }
 
-// latexGet3();
-
-function latexGet3(client, msg){
-  if(!(msg.content.startsWith("!tex3"))){
-     return false;
-  }
-
-  var tape = require('tape');
-  var typeset = require("mathjax-node-svg2png").typeset;
-  var options = {
-    math: msg.content.substring(5),
-    format:'TeX',
-    svg: false,
-    png:true,
-    scale: 10,
-    styles: {
-
-      ".MathJax_Display": {
-        "text-align": "center",
-        margin:       "1em 0em"
-      },
-
-      ".MathJax .merror": {
-        "background-color": "#FFFF88",
-        color:   "#CC0000",
-        border:  "1px solid #CC0000",
-        padding: "1px 3px",
-        "font-style": "normal",
-        "font-size":  "90%"
-      }
-
-    }
-  };
-  typeset(options, function (result) {
-    var base64Data = result.png.replace(/^data:image\/png;base64,/, "");
-    require("fs").writeFile("latex_output.png", base64Data, 'base64', function(err) {
-      msg.channel.send("",{
-          file:"latex_output.png"
-        })
-    });
-  });
-  return true;
-}
-
-
 
 function getMan(rubberDuck, msg){
   if (!msg.content.toLowerCase().startsWith("man ") || msg.content.split(" ").length!==2){
@@ -841,42 +794,4 @@ function minecraft(client, msg){
     }
   })
   return true;
-}
-
-const download = require('image-downloader')
-function pdfToPng(client, msg){
-  if(!msg.content.toLowerCase().startsWith("!png")){return false;}
-  var files = Array.from(msg.attachments.values());
-  // console.log(files[0].url)
-
-
-
-//   var options = {
-//     url: files[0].url,
-//     dest: 'output/input.pdf'
-//   }
-//   download.image(options).then(({ filename, image }) => {
-//     console.log('File saved to', filename)
-
-//   })
-//   .catch((err) => {
-//     console.error(err)
-//   })
-
-//   var pdftoimage = require('pdftoimage');
-//   var file = 'output/input.pdf';
-
-//   // Returns a Promise
-//   pdftoimage(file, {
-//     format: 'png',  // png, jpeg, tiff or svg, defaults to png
-//     prefix: 'img',  // prefix for each image except svg, defaults to input filename
-//     outdir: 'output'   // path to output directory, defaults to current directory
-//   })
-//   .then(function(){
-//     console.log('Conversion done');
-//   })
-//   .catch(function(err){
-//     console.log(err);
-//   });
-
 }
