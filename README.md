@@ -49,6 +49,11 @@ Make sure you are in the outer discord-bot folder and run<br />
 ```
 $ npm start
 ```
+
+## Main Contributors
+* [Eli Schiff](https://github.com/elihschiff)
+* [Ben Sherman](https://gitlab.com/phi11ipus)
+
 ## Other
 Rubber Duck is dedicated to SIS Man (1998-2019)
 
