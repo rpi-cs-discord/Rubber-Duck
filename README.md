@@ -1,13 +1,13 @@
 Rubber Duck
 ======
-Rubber Duck is a fully-featured **Discord Bot** used to aid with the administration of the RPI computer science discord server
+Rubber Duck is a fully-featured **Discord Bot** used to aid with the administration of the RPI computer science Discord server
 ([Join Here](https://discord.gg/fH8nNMQ))
 
 Duck and Cover!! Rubber Duck is more than it's quacked up to be. Waddle we do without this quackingly great ducknology. Let Rubber Duck take you under his wing. Make yourself feel vinduckated and deploy this in producktion and get your semiconducktors quacking.
 
 ## Installation
 ```bash
-$ mkdir rubber-duck
+$ mkdir discord-bot
 $ cd rubber-duck
 $ git clone https://github.com/elihschiff/Rubber-Duck.git
 $ cp package.json ../
@@ -16,7 +16,7 @@ $ npm install
 ```
 After you are done your folder structure should look like this
 ```
-rubber-duck
+discord-bot
   ├─── Rubber-Duck
   │       ├─── package.json
   │       └─── ...
@@ -45,7 +45,7 @@ All changes to package.json must be made to both versions in order for the bot t
 - Automatically detect and deploy code updates made to the github repo
 
 ## Running the bot
-Make sure you are in the outer rubber-duck folder and run<br />
+Make sure you are in the outer discord-bot folder and run<br />
 ```
 $ npm start
 ```
