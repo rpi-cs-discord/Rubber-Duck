@@ -711,7 +711,7 @@ function emojimode(client, msg){
         return true;
       }
     }
-    if(emojiOnlyServers[msg.channel.id] && !(msg.author.id==process.env.BEN_ID || msg.author.id==process.env.BEN_ID)){
+    if(emojiOnlyServers[msg.channel.id] && !(msg.author.id==process.env.ELI_ID || msg.author.id==process.env.BEN_ID)){
       console.log(msg.cleanContent)
       if(msg.cleanContent.includes("<<") || msg.embeds.length > 0 || msg.attachments.size > 0){msg.delete(); return true;}
       if(msg.cleanContent.includes("Hold up, my code can also be found at that link")){
@@ -767,17 +767,17 @@ function emojimode(client, msg){
 }
 
 
-//THIS IS GONNA BE A GREAT MEME
-function unchaos(client) {
-  var server = client.guilds.get(process.env.DEFAULT_SERVER);
-  var members = server.members.array();
-  members.forEach(member => {
-    console.log(member.displayName);
-    if (member.displayName == "Microsoft Windows") {
-      member.setNickname("M");
-    }
-  })
-}
+// //THIS IS GONNA BE A GREAT MEME
+// function unchaos(client) {
+//   var server = client.guilds.get(process.env.DEFAULT_SERVER);
+//   var members = server.members.array();
+//   members.forEach(member => {
+//     console.log(member.displayName);
+//     if (member.displayName == "Microsoft Windows") {
+//       member.setNickname("M");
+//     }
+//   })
+// }
 
 
 
