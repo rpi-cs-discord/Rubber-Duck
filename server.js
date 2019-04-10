@@ -257,12 +257,12 @@ function copyMessage(rubberDuck,msg,extra){
     var theUserName = msg.author.lastMessage.member.nickname + ' (' + msg.author.lastMessage.member.id + ')';
     if(!theUserName){theUserName = msg.author.username + ' (' + msg.author.id + ')';}
 
-    var theMsg = msg.content;
+    var theMsg = msg.cleanContent;
     //console.log(theMsg);
-    theMsg = theMsg.replace("<@226503278760820746>", "(@)Eli");
-    theMsg = theMsg.replace("<@141900800095027201>", "@Phi11ipus");
-    theMsg = theMsg.replace("@here", "(at)here");
-    theMsg = theMsg.replace("@everyone", "(at)everyone");
+    // theMsg = theMsg.replace("<@226503278760820746>", "(@)Eli");
+    // theMsg = theMsg.replace("<@141900800095027201>", "@Phi11ipus");
+    // theMsg = theMsg.replace("@here", "(at)here");
+    // theMsg = theMsg.replace("@everyone", "(at)everyone");
 
     var attachment_urls = []
     msg.attachments.forEach(attachment => {
@@ -685,12 +685,16 @@ function emojimode(client, msg){
     if (msg.author.id == process.env.ELI_ID || msg.author.id == process.env.BEN_ID) {
       if (msg.content.toLowerCase() == "!emoji" || msg.content.toLowerCase() == "!emoji-h" || msg.content.toLowerCase() == "!emoji-on" || msg.content.toLowerCase() == "!emoji-off"){
         emojiOnlyServers[msg.channel.id]=!emojiOnlyServers[msg.channel.id]
-        //console.log(emojiOnlyServers[msg.channel.id])
+
+        var ateveryone = client.guilds.get(msg.channel.guild.id).roles.find(role => role.name === "@everyone")
+
         if(msg.content.toLowerCase() == "!emoji-on"){
           emojiOnlyServers[msg.channel.id]=true;
+          msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:false})
         }
         if(msg.content.toLowerCase() == "!emoji-off"){
-          emojiOnlyServers[msg.channel.id]=true;
+          emojiOnlyServers[msg.channel.id]=false;
+          msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:null})
         }
         saveDatbase();
         if(msg.content.toLowerCase() == "!emoji-h" || msg.content.toLowerCase() == "!emoji-on"  || msg.content.toLowerCase() == "!emoji-off"){
@@ -699,22 +703,25 @@ function emojimode(client, msg){
         }
         if(emojiOnlyServers[msg.channel.id]){
           msg.channel.send("This channel is now in emoji only mode. Your messages must only contain emoji.")
+          msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:false})
         }else{
           msg.channel.send("Emoji Mode has been turned off. You are free to send normal text.")
+          msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:null})
         }
         return true;
       }
     }
-    if(emojiOnlyServers[msg.channel.id] && !(msg.author.id==process.env.BEN_ID || msg.author.id==process.env.ELI_ID)){
-      if(msg.content.includes("<<") || msg.embeds.length > 0 || msg.attachments.size > 0){msg.delete(); return true;}
-      if(msg.content.includes("Hold up, my code can also be found at that link")){
+    if(emojiOnlyServers[msg.channel.id] && !(msg.author.id==process.env.BEN_ID || msg.author.id==process.env.BEN_ID)){
+      console.log(msg.cleanContent)
+      if(msg.cleanContent.includes("<<") || msg.embeds.length > 0 || msg.attachments.size > 0){msg.delete(); return true;}
+      if(msg.cleanContent.includes("Hold up, my code can also be found at that link")){
         msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
         msg.delete();
         return true;
       }
 
-      var msgText = msg.content;
-      // console.log(msg.content);
+      var msgText = msg.cleanContent;
+      // console.log(msg.cleanContent);
       msgText = emojiStrip(msgText)
       msgText = msgText.replace("❤","")
       msgText = msgText.replace("🅱","")
@@ -753,10 +760,9 @@ function emojimode(client, msg){
         msg.delete();
         return true;
       } else {
-        console.log(msg.content);
+        console.log(msg.cleanContent);
       }
     }
-
   }
 }
 

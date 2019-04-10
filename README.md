@@ -18,7 +18,7 @@ After you are done your folder structure should look like this
 ```
 rubber-duck
   ├─── Rubber-Duck
-  │       ├─── https://glitch.com/edit/#!/rubber-ducks-git-pullpackage.json
+  │       ├─── package.json
   │       └─── ...
   ├─── node_modules
   │       └─── ...
