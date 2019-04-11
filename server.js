@@ -137,7 +137,7 @@ function rubberDuckMessageRecieved(msg){
   }
 
   if (msg.content.toLowerCase().startsWith('!academic integrity') || msg.content.toLowerCase().startsWith('!ai')) {
-    delaySend(rubberDuck,msg,"Please do not share any class related code on this server.  If you see any code please PM an admin to have it removed. \nAlso make sure you are following the Academic Integrity as stated here: http://www.cs.rpi.edu/academics/courses/spring19/csci1200/academic_integrity.php" ,1000);
+    delaySend(rubberDuck,msg,"Please do not share any class related code on this server.  If you see any code please PM an admin to have it removed. \nAlso make sure you are following the Academic Integrity as stated on page 16 of the Student Handbook: https://info.rpi.edu/sites/default/files/Rensselaer%20Handbook%20of%20Student%20Rights%20%26%20Responsibilities%20%C2%BB.pdf" ,1000);
     return true;
   }
 
