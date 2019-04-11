@@ -120,7 +120,7 @@ function rubberDuckMessageRecieved(msg){
   if(minecraft(rubberDuck,msg)){return true;}
   
   if (msg.content.toLowerCase().startsWith("!echo ")) {
-    if (msg.author !== rubberDuck.user || msg.author !== roboMallard.user) {
+    if (msg.author !== rubberDuck.user && msg.author !== roboMallard.user) {
       delaySend(roboMallard, msg, msg.content.substring(6), 1000);
       return true;
     }
