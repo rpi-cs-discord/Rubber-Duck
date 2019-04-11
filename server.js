@@ -152,7 +152,7 @@ function rubberDuckMessageRecieved(msg){
   }
 
   if (msg.content.toLowerCase() == 'std::code();' || msg.content.toLowerCase() == '!code' || msg.content.toLowerCase().startsWith('std::code();')) {
-    var messageText = 'My code can be found here: <https://github.com/elihschiff/Rubber-Duck>\nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667".  If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
+    var messageText = 'My code can be found here: <https://github.com/elihschiff/Rubber-Duck> \nFeel free to add issues to the issue tracker, or even submit pull requests. Also while you are there why not give us a star. \nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667". If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
     delaySend(rubberDuck,msg,messageText,1000);
     return true;
   }
@@ -368,14 +368,15 @@ function addRoles(rubberDuck,msg){
                       + 'To remove a class type "!remove **[CLASS NAME]**"\n'
                       + 'To view the chats for all classes type "!add All-Seer"\nYou can remove this ability with "!remove All-Seer'
                       + '\nDont forget to also view our rules with "!rules"\n'
-                      + 'TAs, Mentors and ALAC tutors should PM "Eli#8092" or "Phi11ipus#4667" to get verified'
+                      + 'TAs, Mentors and ALAC tutors should PM "Eli#8092" or "Phi11ipus#4667" to get verified\n'
+                      + 'Also if you want to view my code just type !code'
                       );
       return true;
     }
 
     if(msg.content.toLowerCase() == "!rules"){
       msg.channel.send(
-                        'TBD but for now be nice, don\'t cheat, and most importantly:\nQuack'
+                        'Be nice, don\'t cheat, and most importantly:\nQuack'
                       );
       return true;
     }

@@ -1,7 +1,7 @@
 Rubber Duck
 ======
-Rubber Duck is a fully-featured **Discord Bot** used to aid with the administration of the RPI computer science Discord server
-([Join Here](https://discord.gg/fH8nNMQ))
+Rubber Duck is a fully-featured **Discord Bot** used to aid with the administration of the RPI Computer Science Discord server
+([Feel free to Join Here](https://discord.gg/fH8nNMQ))
 
 Duck and Cover!! Rubber Duck is more than it's quacked up to be. Waddle we do without this quackingly great ducknology. Let Rubber Duck take you under his wing. Make yourself feel vinduckated and deploy this in producktion and get your semiconducktors quacking.
 
