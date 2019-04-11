@@ -118,6 +118,13 @@ function rubberDuckMessageRecieved(msg){
   if(addRoles(rubberDuck,msg)){return true;}
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
+  
+  if (msg.content.toLowerCase().startsWith("!echo ")) {
+    if (!msg.author.bot) {
+      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
+      return true;
+    }
+  }
 
   // http://damour.me/regionalIndicatorConverter
   if (msg.content.toLowerCase().includes("school of computing")) {
