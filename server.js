@@ -137,7 +137,9 @@ function rubberDuckMessageRecieved(msg){
   }
   
   if (msg.content.toLowerCase() == '!admins') {
-    delaySend(rubberDuck,msg,"https://media.discordapp.net/attachments/533046949457166366/565995696059187299/p3-hooper-bonobos-a-20190223-870x671.png" ,1000);
+    msg.channel.send("",{
+        file: "https://media.discordapp.net/attachments/533046949457166366/565995696059187299/p3-hooper-bonobos-a-20190223-870x671.png"
+    });
     return true;
   }
 
