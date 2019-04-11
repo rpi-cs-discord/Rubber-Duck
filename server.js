@@ -533,13 +533,17 @@ function newClassMaker(msg){
       msg.channel.send('Generating ' + className);
 
       // GENERATE ROLES
+      var timeout = SERVER.roles.find(role => role.name === "Time-Out")
       var allseer = SERVER.roles.find(role => role.name === "All-Seer")
       var permissionOverwrites = [{
         id: SERVER.defaultRole.id,
         denied: ['VIEW_CHANNEL']
       }, {
         id: allseer.id,
-        allowed: ['VIEW_CHANNEL','SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+        allowed: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
+      }, {
+        id: timeout.id,
+        denied: ['SEND_MESSAGES']
       }];
       var toCreate = [className, className+" Mentor", className+" TA"];
       toCreate.forEach(roleName => {
@@ -551,7 +555,7 @@ function newClassMaker(msg){
         }).then(role => {
           var overwrite = {
             id: role.id,
-            allowed: ['VIEW_CHANNEL','SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+            allowed: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
           };
           permissionOverwrites.push(overwrite);
           console.log("Created role " + roleName);
