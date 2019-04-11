@@ -119,9 +119,11 @@ function rubberDuckMessageRecieved(msg){
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
   
-  if (msg.content.toLowerCase().startsWith("echo ")) {
-    delaySend(rubberDuck, msg, msg.content.substring(5), 1000);
-    return true;
+  if (msg.content.toLowerCase().startsWith("!echo ")) {
+    if (msg.author !== rubberDuck.user || msg.author !== roboMallard.user) {
+      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
+      return true;
+    }
   }
 
   // http://damour.me/regionalIndicatorConverter
