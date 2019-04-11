@@ -135,6 +135,11 @@ function rubberDuckMessageRecieved(msg){
     react();
     return true;
   }
+  
+  if (msg.content.toLowerCase() == '!admins') {
+    delaySend(rubberDuck,msg,"https://media.discordapp.net/attachments/533046949457166366/565995696059187299/p3-hooper-bonobos-a-20190223-870x671.png" ,1000);
+    return true;
+  }
 
   if (msg.content.toLowerCase().startsWith('!academic integrity') || msg.content.toLowerCase().startsWith('!ai')) {
     delaySend(rubberDuck,msg,"Please do not share any class related code on this server.  If you see any code please PM an admin to have it removed. \nAlso make sure you are following the Academic Integrity as stated on page 16 of the Student Handbook: https://info.rpi.edu/sites/default/files/Rensselaer%20Handbook%20of%20Student%20Rights%20%26%20Responsibilities%20%C2%BB.pdf" ,1000);
