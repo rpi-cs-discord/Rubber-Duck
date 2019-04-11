@@ -120,7 +120,7 @@ function rubberDuckMessageRecieved(msg){
   if(minecraft(rubberDuck,msg)){return true;}
 
   // http://damour.me/regionalIndicatorConverter
-  if (msg.content.toLowerCase() == "school of computing") {
+  if (msg.content.toLowerCase().includes("school of computing")) {
     async function react(){
       await msg.react("🇨");
       await msg.react("🇴");
