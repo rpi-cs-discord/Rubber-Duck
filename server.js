@@ -252,17 +252,22 @@ function copyMessage(rubberDuck,msg,extra){
   var COPYSERVER = rubberDuck.guilds.get(copyServerId);
 
   if(msg.channel.guild.id == process.env.DEFAULT_SERVER) {
-    // console.log(msg.author.lastMessage)
     // console.log(msg.author.lastMessage.member)
-    var theUserName = msg.author.lastMessage.member.nickname + ' (' + msg.author.lastMessage.member.id + ')';
-    if(!theUserName){theUserName = msg.author.username + ' (' + msg.author.id + ')';}
+    var theUserName = msg.author.username;
+    if(msg.author.lastMessage.member.nickname){theUserName += " (" + msg.author.lastMessage.member.nickname+")"}
+    theUserName +=' (' + msg.author.lastMessage.member.id + ')';
 
     var theMsg = msg.cleanContent;
     //console.log(theMsg);
-    // theMsg = theMsg.replace("<@226503278760820746>", "(@)Eli");
+    // theMsg = theMsg.replace("<@226503278760820746>", "@Eli");
     // theMsg = theMsg.replace("<@141900800095027201>", "@Phi11ipus");
+    // theMsg = theMsg.replace("<@!226503278760820746>", "@Eli");
+    // theMsg = theMsg.replace("<@!141900800095027201>", "@Phi11ipus");
     // theMsg = theMsg.replace("@here", "(at)here");
     // theMsg = theMsg.replace("@everyone", "(at)everyone");
+    msg.mentions.members.forEach(function(member){
+      theMsg += " TAGGED: " + member.user.id
+    })
 
     var attachment_urls = []
     msg.attachments.forEach(attachment => {
@@ -677,7 +682,7 @@ function getMan(rubberDuck, msg){
 
 var emojiStrip = require('emoji-strip')
 var emojiOnlyServers = {};//gets set in database
-emojiOnlyServers["528998098274484254"]=true//#welcome
+// emojiOnlyServers["528998098274484254"]=true//#welcome
 
 function emojimode(client, msg){
   if(msg.channel.type == "dm" || msg.author.bot){return false;}
