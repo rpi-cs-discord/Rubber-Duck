@@ -98,6 +98,16 @@ rubberDuck.on('messageUpdate', (oldmes,newmes) => {
 roboMallard.on('message', msg => {
   if(bothMessageReceived(msg, roboMallard)){return true;}
   roboMallardMessageRecieved(msg);
+
+  if (msg.content.toLowerCase().startsWith("!echo ")) {
+    if (!msg.author.bot && msg.channel.type != "dm") {
+      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
+      return true;
+    } else {
+      msg.channel.send(msg.content.substring(6));
+    }
+  }
+
 });
 
 //code that runs for both ducks on a message being sent
@@ -119,13 +129,6 @@ function rubberDuckMessageRecieved(msg){
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
   
-  if (msg.content.toLowerCase().startsWith("!echo ")) {
-    if (!msg.author.bot) {
-      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
-      return true;
-    }
-  }
-
   // http://damour.me/regionalIndicatorConverter
   if (msg.content.toLowerCase().includes("school of computing")) {
     async function react(){
