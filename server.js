@@ -99,14 +99,6 @@ roboMallard.on('message', msg => {
   if(bothMessageReceived(msg, roboMallard)){return true;}
   roboMallardMessageRecieved(msg);
 
-  if (msg.content.toLowerCase().startsWith("!echo ")) {
-    if (!msg.author.bot && msg.channel.type != "dm") {
-      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
-      return true;
-    } else {
-      msg.channel.send(msg.content.substring(6));
-    }
-  }
 
 });
 
@@ -182,7 +174,12 @@ function roboMallardMessageRecieved(msg){
     return true;
   }
 
-  if (msg.channel.type == "dm" && !msg.author.bot && Math.random() > .8) {
+  if (msg.content.toLowerCase().startsWith("!echo ")) {
+    if (!msg.author.bot) {
+      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
+      return true;
+    }
+  } else if (msg.channel.type == "dm" && !msg.author.bot && Math.random() > .8) {
     sendQuack(roboMallard,msg);
   }
 
