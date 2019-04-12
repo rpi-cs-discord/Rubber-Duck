@@ -253,6 +253,7 @@ function midnightCountdown(endDayOfWeek, endText, channelID, botClient){
 
 
 function copyMessage(rubberDuck,msg,extra){
+  if(msg.author.bot){return;}
   if(msg.channel.type == "dm"){return;}
   if(msg.channel.id == "529143391552798720"){return;}
   if(msg.channel.id == "535583850210918420"){return;}
