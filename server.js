@@ -21,6 +21,10 @@ app.post('/pull-git', function(request, response) {
   git_pull();
 });
 
+app.get('/pull-git', function(request, response) {
+  response.send("ok")//this line is needed
+});
+
 function git_pull(){
   const { exec } = require('child_process');
   exec('cd Rubber-Duck && git fetch --all && git reset --hard origin/master && refresh && ./package-json-update.sh', (err, stdout, stderr) => {
@@ -120,7 +124,7 @@ function rubberDuckMessageRecieved(msg){
   if(addRoles(rubberDuck,msg)){return true;}
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
-  
+
   // http://damour.me/regionalIndicatorConverter
   if (msg.content.toLowerCase().includes("school of computing")) {
     async function react(){
