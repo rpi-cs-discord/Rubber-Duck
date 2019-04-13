@@ -283,7 +283,7 @@ function copyMessage(rubberDuck,msg,extra){
   if(msg.channel.guild.id == process.env.DEFAULT_SERVER) {
     var theUserName = msg.author.username;
     if(msg.guild.members.get(msg.author.id).nickname){theUserName += " (" + msg.guild.members.get(msg.author.id).nickname+")"}
-    theUserName +=' (' + msg.author.lastMessage.member.id + ')';
+    theUserName +=' (' + msg.author.id + ')';
 
     var theMsg = msg.cleanContent;
     msg.mentions.members.forEach(function(member){
