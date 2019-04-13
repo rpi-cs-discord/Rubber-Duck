@@ -114,7 +114,7 @@ function removeEcho(msg){
     msg.channel.fetchMessages({"after":msg.id, "limit":10})
     .then(messages => {
       messages.forEach(function(msg2){
-        if(msg2.content == msg.content.substring(6)){
+        if(msg.author.bot && msg2.content == msg.content.substring(6)){
           msg2.delete();
           return true;
         }
