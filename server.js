@@ -281,19 +281,11 @@ function copyMessage(rubberDuck,msg,extra){
   var COPYSERVER = rubberDuck.guilds.get(copyServerId);
 
   if(msg.channel.guild.id == process.env.DEFAULT_SERVER) {
-    // console.log(msg.author.lastMessage.member)
     var theUserName = msg.author.username;
-    if(msg.author.lastMessage.member.nickname){theUserName += " (" + msg.author.lastMessage.member.nickname+")"}
+    if(msg.guild.members.get(msg.author.id).nickname){theUserName += " (" + msg.guild.members.get(msg.author.id).nickname+")"}
     theUserName +=' (' + msg.author.lastMessage.member.id + ')';
 
     var theMsg = msg.cleanContent;
-    //console.log(theMsg);
-    // theMsg = theMsg.replace("<@226503278760820746>", "@Eli");
-    // theMsg = theMsg.replace("<@141900800095027201>", "@Phi11ipus");
-    // theMsg = theMsg.replace("<@!226503278760820746>", "@Eli");
-    // theMsg = theMsg.replace("<@!141900800095027201>", "@Phi11ipus");
-    // theMsg = theMsg.replace("@here", "(at)here");
-    // theMsg = theMsg.replace("@everyone", "(at)everyone");
     msg.mentions.members.forEach(function(member){
       theMsg += " TAGGED: " + member.user.id
     })
