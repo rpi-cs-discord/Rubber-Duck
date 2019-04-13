@@ -95,16 +95,33 @@ rubberDuck.on('message', msg => {
 rubberDuck.on('messageUpdate', (oldmes,newmes) => {
   copyMessage(rubberDuck,newmes," (EDITED)");
 
-    if(emojimode(rubberDuck,newmes)){return true;}
+  if(emojimode(rubberDuck,newmes)){return true;}
+  if(removeEcho(oldmes)){return true;}
 });
 
 //Robo Mallard on message
 roboMallard.on('message', msg => {
   if(bothMessageReceived(msg, roboMallard)){return true;}
   roboMallardMessageRecieved(msg);
-
-
 });
+
+rubberDuck.on('messageDelete', msg => {
+  if(removeEcho(msg)){return true;}
+});
+
+function removeEcho(msg){
+  if(msg.content.startsWith("!echo")){
+    msg.channel.fetchMessages({"after":msg.id, "limit":10})
+    .then(messages => {
+      messages.forEach(function(msg2){
+        if(msg2.content == msg.content.substring(6)){
+          msg2.delete();
+          return true;
+        }
+      })
+    });
+  }
+}
 
 //code that runs for both ducks on a message being sent
 function bothMessageReceived(msg, botClient){
