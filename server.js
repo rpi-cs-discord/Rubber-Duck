@@ -194,14 +194,15 @@ function roboMallardMessageRecieved(msg){
     delaySend(roboMallard,msg,messageText,2000);
     return true;
   }
-
-  if (msg.content.toLowerCase().startsWith("!echo ")) {
-    if (!msg.author.bot) {
-      delaySend(roboMallard, msg, msg.content.substring(6), 1000);
-      return true;
+  if(!emojiOnlyServers[msg.channel.id] || msg.author.id==process.env.ELI_ID || msg.author.id==process.env.BEN_ID){
+    if (msg.content.toLowerCase().startsWith("!echo ")) {
+      if (!msg.author.bot) {
+        delaySend(roboMallard, msg, msg.content.substring(6), 1000);
+        return true;
+      }
+    } else if (msg.channel.type == "dm" && !msg.author.bot && Math.random() > .8) {
+      sendQuack(roboMallard,msg);
     }
-  } else if (msg.channel.type == "dm" && !msg.author.bot && Math.random() > .8) {
-    sendQuack(roboMallard,msg);
   }
 
 }
