@@ -8,10 +8,9 @@ Duck and Cover!! Rubber Duck is more than it's quacked up to be. Waddle we do wi
 ## Installation
 ```bash
 $ mkdir discord-bot
-$ cd rubber-duck
-$ git clone https://github.com/elihschiff/Rubber-Duck.git
-$ cp package.json ../
-$ cd ..
+$ cd discord-bot
+$ git clone https://github.com/rpi-cs-discord/Rubber-Duck.git
+$ cp ./Rubber-Duck/package.json ./
 $ npm install
 ```
 After you are done your folder structure should look like this
