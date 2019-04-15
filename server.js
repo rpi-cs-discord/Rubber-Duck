@@ -175,7 +175,7 @@ function rubberDuckMessageRecieved(msg){
   }
 
   if (msg.content.toLowerCase() == 'std::code();' || msg.content.toLowerCase() == '!code' || msg.content.toLowerCase().startsWith('std::code();')) {
-    var messageText = 'My code can be found here: <https://github.com/elihschiff/Rubber-Duck> \nFeel free to add issues to the issue tracker, or even submit pull requests. Also while you are there why not give us a star. \nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667". If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
+    var messageText = 'My code can be found here: <https://github.com/rpi-cs-discord/Rubber-Duck> \nFeel free to add issues to the issue tracker, or even submit pull requests. Also while you are there why not give us a star. \nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667". If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
     delaySend(rubberDuck,msg,messageText,1000);
     return true;
   }
