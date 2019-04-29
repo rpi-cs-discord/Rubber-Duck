@@ -17,7 +17,8 @@
     "request": "",
     "ffmpeg-binaries": "",
     "emoji-strip": "",
-    "node-schedule": ""
+    "node-schedule": "",
+    "@vitalets/google-translate-api":""
   },
   "engines": {
     "node": "8.x"

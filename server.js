@@ -110,11 +110,11 @@ rubberDuck.on('messageDelete', msg => {
 });
 
 function removeEcho(msg){
-  if(msg.content.startsWith("!echo")){
+  if(msg.content.startsWith("!echo") || msg.content.startsWith("!translate")){
     msg.channel.fetchMessages({"after":msg.id, "limit":10})
     .then(messages => {
       messages.forEach(function(msg2){
-        if(msg2.author.bot && msg2.content == msg.content.substring(6)){
+        if(msg2.author.bot && msg2.content.startsWith(msg.content.substring(msg.content.indexOf(' ') + 1).trim())){
           msg2.delete();
           return true;
         }
@@ -141,6 +141,7 @@ function rubberDuckMessageRecieved(msg){
   if(addRoles(rubberDuck,msg)){return true;}
   if(getMan(rubberDuck,msg)){return true;}
   if(minecraft(rubberDuck,msg)){return true;}
+  if(translate(rubberDuck,msg)){return true;}
 
   // http://damour.me/regionalIndicatorConverter
   if (msg.content.toLowerCase().includes("school of computing")) {
@@ -686,15 +687,12 @@ function getMan(rubberDuck, msg){
   page = encodeURIComponent(page);
 
   var request = require("request")
-  var url = "http://man.he.net/?topic=" + page + "&section=all"
-  //console.log(url)
+  var url = "https://www.freebsd.org/cgi/man.cgi?query=" + page
   request({
     url: url,
     json: true
   }, function(error, response, body) {
-
-    //console.log(body);
-    if(body.includes('No matches for "') || body.includes('Invalid characters in name')){
+    if(body.includes('Sorry, no data found for') || body.includes('Empty input. Please type a manual page and search again.')){
        return false;
      }else{
        msg.channel.send(url);
@@ -841,4 +839,21 @@ function minecraft(client, msg){
     }
   })
   return true;
+}
+
+
+function translate(client, msg){
+  if (msg.content.toLowerCase().startsWith('!translate ')) {
+   if(msg.author.bot){return false;}
+   var text = msg.content.substring(msg.content.indexOf(' ') + 1).trim()
+   if(text.length == 0){return false;}
+   const translate = require('@vitalets/google-translate-api');
+
+   translate(text, {to: 'en'}).then(res => {
+     msg.channel.send(text + " translates from " + res.from.language.iso.toUpperCase() + " to: " + "`"+res.text+"`")
+   }).catch(err => {
+       console.error(err);
+   });
+   return true;
+ }
 }
