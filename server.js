@@ -150,7 +150,8 @@ function rubberDuckMessageRecieved(msg){
   if(translate(rubberDuck,msg)){return true;}
 
   for (var text in reactions) {
-    if (msg.content.toLowerCase().includes(text)) {
+    var re = new RegExp("\\b" + text + "\\b");
+    if (msg.content.toLowerCase().match(re)) {
       async function react() {
         for (var i = 0; i < reactions[text].length; ++i) {
           await msg.react(reactions[text][i]);
