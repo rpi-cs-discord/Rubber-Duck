@@ -128,6 +128,12 @@ function bothMessageReceived(msg, botClient){
   // if(sendMessagAsBot(msg, botClient)){return true;}
 }
 
+// http://damour.me/regionalIndicatorConverter
+var reactions = {
+  "school of computing": ["🇨", "🇴", "🇲", "🇵", "🇺", "🇹", "🇮", "🇳", "🇬"],
+  "arch": ["565762428122562560"]
+};
+
 //code that runs just rubber duck on a message being sent
 function rubberDuckMessageRecieved(msg){
   copyMessage(rubberDuck,msg,""); // must be first
@@ -143,21 +149,16 @@ function rubberDuckMessageRecieved(msg){
   if(minecraft(rubberDuck,msg)){return true;}
   if(translate(rubberDuck,msg)){return true;}
 
-  // http://damour.me/regionalIndicatorConverter
-  if (msg.content.toLowerCase().includes("school of computing")) {
-    async function react(){
-      await msg.react("🇨");
-      await msg.react("🇴");
-      await msg.react("🇲");
-      await msg.react("🇵");
-      await msg.react("🇺");
-      await msg.react("🇹");
-      await msg.react("🇮");
-      await msg.react("🇳");
-      await msg.react("🇬");
+  for (var text in reactions) {
+    if (msg.content.toLowerCase().includes(text)) {
+      async function react() {
+        for (var i = 0; i < reactions[text].length; ++i) {
+          await msg.react(reactions[text][i]);
+        }
+      }
+      react();
+      return true;
     }
-    react();
-    return true;
   }
 
   if (msg.content.toLowerCase().startsWith('!academic integrity') || msg.content.toLowerCase().startsWith('!ai')) {
