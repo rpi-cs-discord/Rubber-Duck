@@ -104,6 +104,13 @@ rmClient.on('guildMemberAdd', function(member) {
   runTriggers('guildMemberAdd', this, member);
 });
 
+rdClient.on('guildMemberRemove', function(member) {
+  runTriggers('guildMemberRemove', this, member);
+});
+rmClient.on('guildMemberRemove', function(member) {
+  runTriggers('guildMemberRemove', this, member);
+});
+
 
 function runTriggers(eventType, client, msg, extra){
   console.log(eventType)

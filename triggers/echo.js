@@ -5,12 +5,12 @@ var name = path.basename(__filename);
 exports.shouldRun = function(eventType, client, msg, config){
   if(eventType != "message"){ return false; }
   if(msg.author.bot){ return false; }
+  if(client.user.id != config.user_ids.rm_id){ return false; }
   if(!msg.content.startsWith("!echo")){ return false; }
-  if(client.user.id != config.ids.rm_id){ return false; }
   if(!triggerUtils.textAfterGap(msg.content)){ return false; }
   return true;
 }
 
 exports.run = function(eventType, client, msg, config){
-  triggerUtils.delaySend(client, msg, triggerUtils.textAfterGap(msg.content)[2], null);
+  triggerUtils.delaySend(client, msg, triggerUtils.textAfterGap(msg.content), null);
 }

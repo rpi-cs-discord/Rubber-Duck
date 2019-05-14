@@ -1,5 +1,15 @@
 exports.textAfterGap = function(text){
-  return text.match(/^(\S+)\s+(.*)/);
+  if(text.match(/^(\S+)\s+(.*)/)){
+    return text.match(/^(\S+)\s+(.*)/)[2];
+  }
+  return null;
+}
+
+exports.textBeforeGap = function(text){
+  if(text.match(/^(\S+)\s+(.*)/)){
+    return text.match(/^(\S+)\s+(.*)/)[1];
+  }
+  return null;
 }
 
 
