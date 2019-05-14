@@ -13,5 +13,5 @@ exports.shouldRun = function(eventType, client, msg, config){
 }
 
 exports.run = function(eventType, client, msg, config){
-  triggerUtils.delaySend(client, msg, triggerUtils.textAfterGap(msg.content), null);
+  triggerUtils.delaySend(client, msg, triggerUtils.textAfterGap(msg.content), 500);
 }
