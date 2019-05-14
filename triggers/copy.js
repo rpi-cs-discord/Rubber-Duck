@@ -7,9 +7,11 @@ exports.shouldRun = function(eventType, client, msg, config){
   if(eventType == "message"){
     if(msg.author.bot){return false;}
   }else if(eventType == "messageUpdate"){
+    //TODO this may need to be added if the bots get the ability to update messages
   }else{
     return false;
   }
+  if(msg.channel.type != "dm" && msg.member.guild.id != config.default_server.id){ return false; }
   if(msg.channel.type != "dm"){ return false; }
   // if(msg.author.bot){ return false; }
   // if(client.user.id != config.user_ids.rd_id){ return false; }
