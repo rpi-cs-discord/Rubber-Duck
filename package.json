@@ -18,7 +18,8 @@
     "ffmpeg-binaries": "",
     "emoji-strip": "",
     "node-schedule": "",
-    "@vitalets/google-translate-api":""
+    "@vitalets/google-translate-api":"",
+    "enmap": "^4.8.7"
   },
   "engines": {
     "node": "8.x"
