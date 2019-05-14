@@ -3,6 +3,9 @@ var path = require('path');
 var name = path.basename(__filename);
 
 exports.shouldRun = function(eventType, client, msg, config){
+  // if(eventType != "message"){ return false; }
+  // if(msg.author.bot){ return false; }
+  // if(msg.channel.type != "dm"){ return false; }
   return true;
 }
 
