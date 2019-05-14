@@ -1,13 +1,13 @@
 exports.textAfterGap = function(text){
   if(text.match(/^(\S+)\s+(.*)/)){
-    return text.match(/^(\S+)\s+(.*)/)[2];
+    return text.match(/^(\S+)\s+(.*)/)[2].trim();
   }
   return null;
 }
 
 exports.textBeforeGap = function(text){
   if(text.match(/^(\S+)\s+(.*)/)){
-    return text.match(/^(\S+)\s+(.*)/)[1];
+    return text.match(/^(\S+)\s+(.*)/)[1].trim();
   }
   return null;
 }
