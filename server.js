@@ -107,9 +107,10 @@ rmClient.on('guildMemberAdd', function(member) {
 
 function runTriggers(eventType, client, msg){
   console.log(eventType)
-  triggers.forEach(function(trigger, commandName){
+  triggers.some(function(trigger, commandName){
     if(trigger.shouldRun(eventType, client, msg, config)){
-      trigger.run(eventType, client, msg, config);
+      trigger.run(eventType, client, msg, config)
+      // return true;
     }
   })
 }

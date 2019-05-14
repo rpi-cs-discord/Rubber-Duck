@@ -6,8 +6,8 @@ exports.shouldRun = function(eventType, client, msg, config){
   if(eventType != "message"){ return false; }
   if(msg.author.bot){ return false; }
   if(!msg.content.startsWith("!echo")){ return false; }
-  if(client.user.id != config.ids.rm_id){ return false; };
-  if(!triggerUtils.textAfterGap(msg.content)){ return false; };
+  if(client.user.id != config.ids.rm_id){ return false; }
+  if(!triggerUtils.textAfterGap(msg.content)){ return false; }
   return true;
 }
 
