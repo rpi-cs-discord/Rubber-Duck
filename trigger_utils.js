@@ -29,3 +29,28 @@ exports.delaySend = function(botClient, msg, messageText, delay, chatID){
   }, delay);
   theChannel.stopTyping();
 }
+
+
+exports.isUserAdmin = function(id, config){
+  for(var i=0;i<config.user_ids.admin_ids.length;i++){
+    if(config.user_ids.admin_ids[i] == id){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+exports.git_pull = function(config){
+  if(config.development){
+    console.log("FAKE DEVELOPMENT UPDATE: If this was in production, the bot would update off github now.")
+    return;
+  }else{
+    const { exec } = require('child_process');
+    exec('cd Rubber-Duck && git fetch --all && git reset --hard origin/master && refresh && ./package-json-update.sh', (err, stdout, stderr) => {
+      if(err){return;}
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+    });
+  }
+}

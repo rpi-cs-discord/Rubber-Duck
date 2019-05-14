@@ -3,6 +3,8 @@
 const fs = require("fs");
 var config = JSON.parse(fs.readFileSync('./Rubber-Duck/config.json', 'utf8'));
 
+var triggerUtils = require('./trigger_utils.js');
+
 //Glitch Stuff
 const express = require('express');
 const app = express();
@@ -17,20 +19,11 @@ setInterval(() => {
 app.post('/pull-git', function(request, response) {
   response.send("ok")//this line is needed
   console.log("Told to pull")
-  git_pull();
+  triggerUtils.git_pull(config);
 });
 app.get('/pull-git', function(request, response) {
   response.send("ok")//this line is needed
 });
-
-function git_pull(){
-  const { exec } = require('child_process');
-  exec('cd Rubber-Duck && git fetch --all && git reset --hard origin/master && refresh && ./package-json-update.sh', (err, stdout, stderr) => {
-    if(err){return;}
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-  });
-}
 
 
 require('dotenv').config();
@@ -49,7 +42,7 @@ fs.readdir("./Rubber-Duck/triggers/", function(err, files){
     let props = require(`./triggers/${file}`);
     let commandName = file.split(".")[0];
     if(commandName=="template"){ return; }
-    console.log(`Attempting to load command: ${commandName}`);
+    console.log(`Loading command: ${commandName}`);
     triggers.set(commandName, props);
   });
 });
@@ -57,12 +50,14 @@ fs.readdir("./Rubber-Duck/triggers/", function(err, files){
 
 rdClient.on('ready', function() {
   console.log("Ready RD");
+  if(!config.activity.rd_type){ return; }
   this.user.setActivity(config.activity.rd_text, {
     type: config.activity.rd_type
   })
 });
 rmClient.on('ready', function() {
   console.log("Ready RM");
+  if(!config.activity.rd_type){ return; }
   this.user.setActivity(config.activity.rm_text, {
     type: config.activity.rm_type
   })
