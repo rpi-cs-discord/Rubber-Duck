@@ -54,3 +54,12 @@ exports.git_pull = function(config){
     });
   }
 }
+
+exports.isRoleManagementChannel = function(id, config){
+  for(var i=0;i<config.role_management.valid_channel_ids.length;i++){
+    if(config.role_management.valid_channel_ids[i] == id){
+      return true;
+    }
+  }
+  return false;
+}
