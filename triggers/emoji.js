@@ -27,11 +27,6 @@ exports.shouldRun = function(eventType, client, msg, config){
 
 const fs = require("fs");
 exports.run = function(eventType, client, msg, config, database){
-console.log("here");
-  // var changes = {
-  //   "123":"emojiOnlyServers",
-  //   "321":"emojiOnlyUsers"
-  // }
   var changes = {};
   if(triggerUtils.textAfterGap(msg.content)){
     var result;
@@ -42,29 +37,48 @@ console.log("here");
     changes[msg.channel.id]="emojiOnlyServers";
   }
 
-  console.log(changes)
+  // console.log(changes)
+  var ateveryone = client.guilds.get(msg.channel.guild.id).roles.find(role => role.name === "@everyone")
   for (var id in changes) {
     var emojiModeType = changes[id];
     database[emojiModeType][id]=!database[emojiModeType][id];
 
-    var ateveryone = client.guilds.get(msg.channel.guild.id).roles.find(role => role.name === "@everyone")
+    var overwritePermissionRole = ateveryone;
+    //This code was commented out because it is really only needed if we every add channel specific emoji only mode
+    // if(emojiModeType == "emojiOnlyUsers"){
+    //   overwritePermissionRole = client.guilds.get(config.default_server.id).members.get(id);
+    // }
+
+
     if(msg.content.toLowerCase() == "!emoji-on"){
       database[emojiModeType][id]=true;
-      msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:false});
+      if(emojiModeType == "emojiOnlyServers"){
+        msg.channel.overwritePermissions(overwritePermissionRole,{EMBED_LINKS:false});
+      }
     }
     if(msg.content.toLowerCase() == "!emoji-off"){
       database[emojiModeType][id]=false;
-      msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:null});
+      if(emojiModeType == "emojiOnlyServers"){
+        msg.channel.overwritePermissions(overwritePermissionRole,{EMBED_LINKS:null});
+      }
     }
     if(msg.content.toLowerCase() == "!emoji-h" || msg.content.toLowerCase() == "!emoji-on"  || msg.content.toLowerCase() == "!emoji-off"){
       msg.delete()
     }else{
       if(database[emojiModeType][id]){
-        msg.channel.send("This channel is now in emoji only mode. Your messages must only contain emoji.");
-        msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:false});
+        if(emojiModeType == "emojiOnlyServers"){
+          msg.channel.send("This channel is now in emoji only mode. Your messages must only contain emoji.");
+          msg.channel.overwritePermissions(overwritePermissionRole,{EMBED_LINKS:false});
+        }else{
+          msg.channel.send("<@"+id+"> you are now in emoji only mode. Your messages must only contain emoji.");
+        }
       }else{
-        msg.channel.send("Emoji Mode has been turned off. You are free to send normal text.");
-        msg.channel.overwritePermissions(ateveryone,{EMBED_LINKS:null});
+        if(emojiModeType == "emojiOnlyServers"){
+          msg.channel.send("This channel is no longer in emoji only mode. You are free to send normal text.");
+          msg.channel.overwritePermissions(overwritePermissionRole,{EMBED_LINKS:null});
+        }else {
+          msg.channel.send("<@"+id+"> you are no longer in emoji only mode. You are free to send normal text.");
+        }
       }
     }
   }
