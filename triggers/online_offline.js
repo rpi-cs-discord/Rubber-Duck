@@ -14,6 +14,6 @@ exports.shouldRun = function(eventType, client, oldMember, config, newMember){
   return true;
 }
 
-exports.run = function(eventType, client, oldMember, config, newMember){
+exports.run = function(eventType, client, oldMember, config, database, newMember){
   client.channels.get(config.logs.online_offline_id).send(newMember.user.username + ' (' + newMember.id +')' + ' is now ' + newMember.presence.status )
 }

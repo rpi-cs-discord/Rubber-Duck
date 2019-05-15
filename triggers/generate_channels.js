@@ -8,11 +8,6 @@ exports.shouldRun = function(eventType, client, msg, config){
   if(client.user.id != config.user_ids.rd_id){ return false; }
   if(!msg.content.startsWith('\\gen_class')){ return false; }
 
-  // for(var i=0;i<config.user_ids.admin_ids.length;i++){
-  //   if(config.user_ids.admin_ids[i] == msg.author.id){
-  //     return true;
-  //   }
-  // }
   if(!triggerUtils.isUserAdmin(msg.author.id, config)){ return false; }
   return true;
 }

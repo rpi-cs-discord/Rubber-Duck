@@ -21,7 +21,7 @@ exports.shouldRun = function(eventType, client, msg, config){
   return true;
 }
 
-exports.run = function(eventType, client, msg, config, newMsg){
+exports.run = function(eventType, client, msg, config, database, newMsg){
   //This needs a lot of work
 
 }

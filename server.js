@@ -1,7 +1,7 @@
 //Config
 //Loads in the config file
 const fs = require("fs");
-var config = JSON.parse(fs.readFileSync('./Rubber-Duck/config.json', 'utf8'));
+var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 var triggerUtils = require('./trigger_utils.js');
 
@@ -64,11 +64,18 @@ rmClient.on('ready', function() {
 });
 
 //Discord Events
+var database = JSON.parse(fs.readFileSync('./database.json', 'utf8'));
 rdClient.on('message', function(msg) {
-  runTriggers('message', this, msg);
+  if(triggerUtils.notEmojiMode(msg, config, this, database)){
+    runTriggers('message', this, msg);
+  }else{
+    triggerUtils.emojiMode(msg, this, config);
+  }
 });
 rmClient.on('message', function(msg) {
-  runTriggers('message', this, msg);
+  if(triggerUtils.notEmojiMode(msg, config, this, database)){
+    runTriggers('message', this, msg);
+  }
 });
 
 rdClient.on('messageDelete', function(msg) {
@@ -111,7 +118,7 @@ function runTriggers(eventType, client, msg, extra){
   console.log(eventType)
   triggers.some(function(trigger, commandName){
     if(trigger.shouldRun(eventType, client, msg, config, extra)){
-      trigger.run(eventType, client, msg, config, extra)
+      trigger.run(eventType, client, msg, config, database, extra)
       // return true;
     }
   })

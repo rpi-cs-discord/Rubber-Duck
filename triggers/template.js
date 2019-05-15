@@ -11,6 +11,6 @@ exports.shouldRun = function(eventType, client, msg, config){
   return true;
 }
 
-exports.run = function(eventType, client, msg, config){
+exports.run = function(eventType, client, msg, config, database, extra){
   console.log("Just ran: " + name);
 }
