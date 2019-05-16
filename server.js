@@ -547,7 +547,9 @@ function newClassMaker(msg){
     if (msg.content.startsWith('\\gen_class')) {
       var SERVER = rubberDuck.guilds.get(process.env.DEFAULT_SERVER);
 
-      var className = msg.content.substring(msg.content.indexOf(' ') + 1);
+      var classToken = msg.content.substring(msg.content.indexOf(' ') + 1);
+      var classId = classToken.substring(0, classToken.indexOf(' '));
+      var className = classToken.substring(classToken.indexOf(' ') + 1);
       msg.channel.send('Generating ' + className);
 
       // GENERATE ROLES
@@ -578,7 +580,7 @@ function newClassMaker(msg){
           permissionOverwrites.push(overwrite);
           console.log("Created role " + roleName);
           if (permissionOverwrites.length === 3+toCreate.length) {
-            GenerateChannels(msg, SERVER, permissionOverwrites, className);
+            GenerateChannels(msg, SERVER, permissionOverwrites, classId, className);
           }
         });
       });
@@ -588,10 +590,11 @@ function newClassMaker(msg){
   }
 }
 
-function GenerateChannels(msg, SERVER, permissionOverwrites, className) {
+function GenerateChannels(msg, SERVER, permissionOverwrites, classId, className) {
   var channelNames = ['general', 'homework'];
   SERVER.createChannel(className, 'category', permissionOverwrites)
     .then(categoryChannel => {
+      categoryChannel.setTopic(classId);
       channelNames.forEach(name => {
         SERVER.createChannel(name, 'text', permissionOverwrites).then(channel=>{
           channel.setParent(categoryChannel)
