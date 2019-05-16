@@ -589,7 +589,7 @@ function newClassMaker(msg){
 }
 
 function GenerateChannels(msg, SERVER, permissionOverwrites, className) {
-  var channelNames = ['general', 'homework', 'labs'];
+  var channelNames = ['general', 'homework'];
   SERVER.createChannel(className, 'category', permissionOverwrites)
     .then(categoryChannel => {
       channelNames.forEach(name => {
