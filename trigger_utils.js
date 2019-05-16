@@ -42,7 +42,7 @@ exports.isUserAdmin = function(id, config){
 
 
 exports.git_pull = function(config){
-  if(config.development){
+  if(config.development_settings.development){
     console.log("FAKE DEVELOPMENT UPDATE: If this was in production, the bot would update off github now.")
     return;
   }else{

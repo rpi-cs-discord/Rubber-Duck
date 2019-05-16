@@ -117,6 +117,16 @@ rmClient.on('guildMemberRemove', function(member) {
 function runTriggers(eventType, client, msg, extra){
   console.log(eventType)
   triggers.some(function(trigger, commandName){
+
+    //allows you to disable all but specific triggers when in development
+    if(config.development_settings.development){
+      if(config.development_settings.triggers_to_run.length > 0){
+        if(!config.development_settings.triggers_to_run.includes(commandName)){
+          return false;
+        }
+      }
+    }
+
     if(trigger.shouldRun(eventType, client, msg, config, extra)){
       trigger.run(eventType, client, msg, config, database, extra)
       // return true;
