@@ -563,7 +563,7 @@ function newClassMaker(msg){
         id: timeout.id,
         denied: ['SEND_MESSAGES']
       }];
-      var toCreate = [className, className+" Mentor", className+" TA"];
+      var toCreate = [className];
       toCreate.forEach(roleName => {
         SERVER.createRole({
           name: roleName,
@@ -577,7 +577,7 @@ function newClassMaker(msg){
           };
           permissionOverwrites.push(overwrite);
           console.log("Created role " + roleName);
-          if (permissionOverwrites.length === 5) {
+          if (permissionOverwrites.length === 3+toCreate.length) {
             GenerateChannels(msg, SERVER, permissionOverwrites, className);
           }
         });
