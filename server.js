@@ -113,9 +113,16 @@ rmClient.on('guildMemberRemove', function(member) {
   runTriggers('guildMemberRemove', this, member);
 });
 
+rdClient.on('messageReactionAdd', function(msgReaction, user) {
+  runTriggers('messageReactionAdd', this, msgReaction, user);
+});
+rmClient.on('messageReactionAdd', function(msgReaction, user) {
+  runTriggers('messageReactionAdd', this, msgReaction, user);
+});
+
 
 function runTriggers(eventType, client, msg, extra){
-  console.log(eventType)
+  if(eventType!= "presenceUpdate"){ console.log(eventType) }
   triggers.some(function(trigger, commandName){
 
     //allows you to disable all but specific triggers when in development
