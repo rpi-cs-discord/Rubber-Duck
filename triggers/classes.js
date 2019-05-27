@@ -15,13 +15,19 @@ exports.shouldRun = function(eventType, client, msg, config){
 exports.run = function(eventType, client, msg, config){
   if(msg.channel.type == "dm" || triggerUtils.isRoleManagementChannel(msg.channel.id, config)){
     var server = client.guilds.get(config.default_server.id);
-    var classRoles = config.role_management.addable_roles;
-    var roleNames = "**";
+    var classRoles = config.addable_roles;
+    var roleNames = "";
     for(var i=0;i<classRoles.length;i++){
-      roleNames += server.roles.find(role => role.name === classRoles[i]).name
+      // roleNames += server.roles.find(role => role.name === classRoles[i]).name
+      roleNames += "**";
+      roleNames+=" " + classRoles[i].roleName
+      roleNames += "**";
+      if(classRoles[i].department && classRoles[i].courseCode){
+        roleNames+=" " + classRoles[i].department + "-" + classRoles[i].courseCode
+      }
+
       if(i<classRoles.length-1){roleNames+="\n";}
     }
-    roleNames += "**";
     var embedObj = {embed: {
       color: 3447003,
       // description: roles

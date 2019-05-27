@@ -22,14 +22,14 @@ exports.run = function(eventType, client, msg, config){
       return true;
     }
 
-    var classRoles = config.role_management.addable_roles;
+    var classRoles = config.addable_roles;
     if(triggerUtils.textAfterGap(msg.content)){
       var roleName = triggerUtils.textAfterGap(msg.content).toLowerCase()
       for(var i=0;i<classRoles.length;i++){
-        if(classRoles[i].toLowerCase() == roleName){
+        if(classRoles[i].roleName.toLowerCase() == roleName){
           // todo add message if they already have that role
-          msg.channel.send('You have been removed from the class "' + classRoles[i] + '"');
-          server.members.get(msg.author.id).removeRole(server.roles.find(role => role.name === classRoles[i]).id)
+          msg.channel.send('You have been removed from the class "' + classRoles[i].roleName + '"');
+          server.members.get(msg.author.id).removeRole(server.roles.find(role => role.name === classRoles[i].roleName2).id)
           return true;
         }
       }

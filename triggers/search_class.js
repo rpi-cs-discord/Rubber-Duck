@@ -52,7 +52,7 @@ var options = {
 };
 var fuse = new Fuse(config.addable_roles, options); // "list" is the item array
 
-const emojiNumbers = ["\u0031\u20E3","\u0032\u20E3","\u0033\u20E3","\u0034\u20E3","\u0035\u20E3", "\u0036\u20E3","\u0037\u20E3","\u0038\u20E3","\u0039\u20E3"]//"\u0030\u20E3"
+const emojiNumbers = ["\u0030\u20E3","\u0031\u20E3","\u0032\u20E3","\u0033\u20E3","\u0034\u20E3","\u0035\u20E3", "\u0036\u20E3","\u0037\u20E3","\u0038\u20E3","\u0039\u20E3"]
 const noMatchingResultsEmote = "🚫";
 exports.run = function(eventType, client, msg, config, database, user){
   var server = client.guilds.get(config.default_server.id);
@@ -77,10 +77,15 @@ exports.run = function(eventType, client, msg, config, database, user){
           async function react() {
 
             msgToSend  = "<@" + msg.author.id + ">, I could not find an exact match for `" + searchTerm + "`\n";
-            msgToSend += "Click the corresponding reaction if one of these results match, or send the number of the correct result:\n"
+            msgToSend += "Click the corresponding reaction if one of these results match:\n"//, or send the number of the correct result
             msgToSend += "\n"
             for (let i = 0; i < shownResultsLength; i++) {
-              msgToSend+=emojiNumbers[i] + " " + results[i].item.department + "-" + results[i].item.courseCode + " " + results[i].item.roleName + " " + results[i].score + "\n\n";
+              msgToSend+=emojiNumbers[i] //+ " " + results[i].item.department + "-" + results[i].item.courseCode + " " + results[i].item.roleName + " " + results[i].score + "\n\n";
+              if(results[i].item.department && results[i].item.courseCode){
+                msgToSend+=" " + results[i].item.department + "-" + results[i].item.courseCode
+              }
+              msgToSend+=" " + results[i].item.roleName
+              msgToSend+= "\n\n";
             }
             msgToSend += noMatchingResultsEmote + " No results match";
             botMsg.edit(msgToSend);
@@ -94,36 +99,6 @@ exports.run = function(eventType, client, msg, config, database, user){
           react();
         });
       }
-      // console.log(results.length)
-      // console.log(results[0].item)
-      // console.log(results[1].score)
-
-      //
-      // if(msg.content.toLowerCase() == "!add all-seer"){
-      //   msg.channel.send('You are now an All-Seer. But remember, with great power comes great responsibility and a lot of notifications!\nAlso, even as an All-Seer, please keep your class list up to date to let others know which classes you are enrolled in.\nIf you don\'t want to be an All-Seer anymore, just type "!remove All-Seer"');
-      //   server.members.get(msg.author.id).addRole(server.roles.find(role => role.name === "All-Seer").id)
-      //   return true;
-      // }
-      //
-      // var classRoles = config.role_management.addable_roles;
-      // if(triggerUtils.textAfterGap(msg.content)){
-      //   var roleName = triggerUtils.textAfterGap(msg.content).toLowerCase()
-      //   for(var i=0;i<classRoles.length;i++){
-      //     if(classRoles[i].toLowerCase() == roleName){
-      //       // todo add message if they already have that role
-      //       //console.log(msg.author.id)
-      //       msg.channel.send('You have been added to the class "' + classRoles[i] + '"');
-      //       server.members.get(msg.author.id).addRole(server.roles.find(role => role.name === classRoles[i]).id)
-      //       return true;
-      //     }
-      //   }
-      //   msg.channel.send('I cannot find **' + roleName + '**, double check your spelling and try again. If this is a CS class at RPI but it is not in the current list of classes please message "@Eli#8092" or "Phi11ipus#4667".');
-      //   return true;
-      // }
-      //
-      // if(msg.content.startsWith("!add")){
-      //   msg.channel.send('Use this command to add a role for any class you are currently in for example: `!add DS`');
-      // }
     }else{
       msg.channel.send(config.role_management.anti_spam_message);
     }
@@ -141,26 +116,30 @@ exports.run = function(eventType, client, msg, config, database, user){
       msg.message.clearReactions();
       return;
     }
-    var re = new RegExp("("+msg._emoji.name+" )([a-zA-Z]+)-([0-9]+)");
-    console.log(msg.count)
+
+    var re = new RegExp("("+msg._emoji.name+" )(([a-zA-Z]+)-([0-9]+)(\/[0-9]+)? )?(.+)");
+    console.log("here")
+    console.log(re.exec(msg.message.content))
+    // return;
     if(!re.exec(msg.message.content) || msg.count<2){//cannot add extra unrelated reactions
       msg.remove(user);
       return;
     }
     var matches = re.exec(msg.message.content);
-    var roleToAdd = findByCourseCode(matches[2], matches[3]);
+    var roleToAdd = findByCourseRole(matches[6]);
     msg.message.clearReactions();
     setTimeout(function () {
       msg.message.clearReactions();
     }, 5000);
 
+    // console.log("adding " + roleToAdd.roleName)
     addRole(server, msg.message, user, roleToAdd.roleName)
   }
 }
 
-function findByCourseCode(department, courseCode){
+function findByCourseRole(roleName){
     for (var i=0; i < config.addable_roles.length; i++) {
-        if (config.addable_roles[i].department == department && config.addable_roles[i].courseCode == courseCode) {
+        if (config.addable_roles[i].roleName == roleName) {
             return config.addable_roles[i];
         }
     }
