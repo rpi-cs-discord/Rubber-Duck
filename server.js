@@ -122,7 +122,7 @@ rmClient.on('messageReactionAdd', function(msgReaction, user) {
 
 
 function runTriggers(eventType, client, msg, extra){
-  if(eventType!= "presenceUpdate"){ console.log(eventType) }
+  if(eventType != "presenceUpdate"){ console.log(eventType) }
   triggers.some(function(trigger, commandName){
 
     //allows you to disable all but specific triggers when in development
