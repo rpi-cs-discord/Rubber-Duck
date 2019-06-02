@@ -65,9 +65,11 @@ exports.run = function(eventType, client, msg, config, database, extra){
         "text": "Game Length: 0min"
       }
     };
-    msg.channel.send("Playing connect 4: "+playerFaces[0]+"@eli's turn", { embed }).then(function(board){
+    msg.channel.send("Playing connect 4: "+playerFaces[0]+"<@"+msg.author.id+">'s turn", { embed }).then(function(board){
       async function react(width) {
+        var reacts = "["
         for(var i=0;i<width;i++){
+          reacts+='"'
           if(i<=9){
             await board.react(String.fromCharCode(parseInt("00" + (30+i),16)) + "\u20E3");
           }else if(i==10){
@@ -75,13 +77,22 @@ exports.run = function(eventType, client, msg, config, database, extra){
           }else{
             await board.react("\ud83c"+String.fromCharCode(parseInt("dde" + (-5+i).toString(16),16)));
           }
+          reacts+='",'
         }
+        console.log(reacts)
       }
       react(width);
     });
   }else if(eventType == "messageReactionAdd"){
+    var regExp = /\d{17,18}/;
+    var lastPlayer = regExp.exec(msg.message.content)[0];
+    var nextPlayer = regExp.exec(msg.message.embeds[0].description.substring(msg.message.embeds[0].description.indexOf(lastPlayer)+lastPlayer.length))
+    if(!nextPlayer){
+      nextPlayer = regExp.exec(msg.message.embeds[0].description);
+    }
+
     +new Date
     msg.message.embeds[0].footer.text = "Game Length: "+Math.round((Date.now()-msg.message.createdTimestamp)/1000/60)+"min";
-    msg.message.edit("Playing connect 4: "+playerFaces[0]+"@eli's turn", new Discord.RichEmbed(msg.message.embeds[0]));
+    msg.message.edit("Playing connect 4: "+playerFaces[0]+"<@"+nextPlayer[0]+">'s turn", new Discord.RichEmbed(msg.message.embeds[0]));
   }
 }
