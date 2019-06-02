@@ -14,7 +14,8 @@ exports.shouldRun = function(eventType, client, msg, config, user){
     if(user.bot){ return false; }
     if(msg.message.channel.type != "dm" && msg.message.channel.guild.id != config.default_server.id){ return false; }
     if(client.user.id != config.user_ids.rd_id){ return false; }
-
+    if(msg.message.author.id != config.user_ids.rd_id){return false;}
+    if(!msg.message.content.includes("could not find an exact match for")){return false;}
     // var re = /[0-9]{18}|[0-9]{17}/;
     // console.log(re.exec(msg.message.content))
     // if(user.id != re.exec(msg.message.content)[0]){return false;}

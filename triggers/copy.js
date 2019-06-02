@@ -32,7 +32,7 @@ exports.run = function(eventType, client, msg, config, database, newMsg){
   }
 
   if(eventType == "messageUpdate"){
-    copyMessage(client,newmes," (EDITED)",config);
+    copyMessage(client,newMsg," (EDITED)",config);
   }else if(eventType == "message"){
     copyMessage(client,msg,"",config);
   }
