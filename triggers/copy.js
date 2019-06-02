@@ -7,7 +7,7 @@ exports.shouldRun = function(eventType, client, msg, config, newMsg){
   if(eventType == "message"){
     if(msg.author.bot){return false;}
   }else if(eventType == "messageUpdate"){
-    //TODO this may need to be added if the bots get the ability to update messages
+    if(newMsg.author.bot){return false;}
   }else{
     return false;
   }
