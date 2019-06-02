@@ -12,6 +12,7 @@ exports.shouldRun = function(eventType, client, msg, config, user){
     if(msg.author.bot){ return false; }
   } else if(eventType == "messageReactionAdd"){
     if(user.bot){ return false; }
+    if(!msg.message.content.includes("Playing connect 4:")){return false;}
     return true;
   }else{
     return false;
@@ -23,11 +24,12 @@ exports.shouldRun = function(eventType, client, msg, config, user){
 
 
 var playerFaces = ["😄","😡","👿","🤢","💀","🤖","🐵","🐷"];
+var colEmoji = ["0⃣","1⃣","2⃣","3⃣","4⃣","5⃣","6⃣","7⃣","8⃣","9⃣","🔟","🇦","🇧","🇨","🇩","🇪","🇫","🇬","🇭","🇮"]
 exports.run = function(eventType, client, msg, config, database, extra){
   if(eventType == "message"){
-    var width = 1;
+    var width = 3;
     if(width > 20){width=20;}
-    var height = 10;
+    var height = 3;
     var titleText = "";
     titleText += playerFaces[0]
     titleText += msg.guild.members.get(msg.author.id).user
@@ -40,13 +42,7 @@ exports.run = function(eventType, client, msg, config, database, extra){
 
     var whichCol = ""
     for(var i=0;i<width;i++){
-      if(i<=9){
-        whichCol += String.fromCharCode(parseInt("00" + (30+i),16)) + "\u20E3";
-      }else if(i==10){
-        whichCol += "\uD83D\uDD1F"
-      }else{
-        whichCol += "\ud83c"+String.fromCharCode(parseInt("dde" + (-5+i).toString(16),16))+"⁠";
-      }
+      whichCol += colEmoji[i] + "⁠";
     }
     whichCol+="\n";
 
@@ -67,23 +63,43 @@ exports.run = function(eventType, client, msg, config, database, extra){
     };
     msg.channel.send("Playing connect 4: "+playerFaces[0]+"<@"+msg.author.id+">'s turn", { embed }).then(function(board){
       async function react(width) {
-        var reacts = "["
         for(var i=0;i<width;i++){
-          reacts+='"'
-          if(i<=9){
-            await board.react(String.fromCharCode(parseInt("00" + (30+i),16)) + "\u20E3");
-          }else if(i==10){
-            await board.react("\uD83D\uDD1F");
-          }else{
-            await board.react("\ud83c"+String.fromCharCode(parseInt("dde" + (-5+i).toString(16),16)));
-          }
-          reacts+='",'
+          await board.react(colEmoji[i]);
         }
-        console.log(reacts)
       }
       react(width);
     });
   }else if(eventType == "messageReactionAdd"){
+    var board = msg.message.embeds[0].description.split("\n")
+    var index = colEmoji.indexOf(msg._emoji.name);
+    if(index < 0){
+      return false;
+    }
+    var currentRow = board.length-2;
+    var loc = 0;
+    while(currentRow>=2){
+      loc = 0;
+      var currentCol = 0;
+      while(currentCol < index){
+        if(board[currentRow][loc] == "⚫"){
+          loc++;
+        }else{
+          loc+=2;
+        }
+        currentCol++;
+      }
+      console.log(loc + " " + currentCol)
+      if(board[currentRow][loc] == "⚫"){
+        break;
+      }
+
+      currentRow--;
+    }
+
+    if(currentRow < 2){
+      return;
+    }
+
     var regExp = /\d{17,18}/;
     var lastPlayer = regExp.exec(msg.message.content)[0];
     var nextPlayer = regExp.exec(msg.message.embeds[0].description.substring(msg.message.embeds[0].description.indexOf(lastPlayer)+lastPlayer.length))
@@ -91,8 +107,18 @@ exports.run = function(eventType, client, msg, config, database, extra){
       nextPlayer = regExp.exec(msg.message.embeds[0].description);
     }
 
+    var currentPieceLoc = msg.message.embeds[0].description.match(/\d{17,18}/g).indexOf(lastPlayer);
+    board[currentRow] = board[currentRow].substr(0,loc) + playerFaces[currentPieceLoc] + board[currentRow].substr(loc+1)
+    msg.message.embeds[0].description = board.join("\n")
+    msg.message.embeds[0]//I have no clue why but the program breaks if this line is not here
+
+    currentPieceLoc++;
+    console.log(msg.message.embeds[0].description.match(/\d{17,18}/g))
+    if(currentPieceLoc>=msg.message.embeds[0].description.match(/\d{17,18}/g).length){
+      currentPieceLoc=0;
+    }
     +new Date
     msg.message.embeds[0].footer.text = "Game Length: "+Math.round((Date.now()-msg.message.createdTimestamp)/1000/60)+"min";
-    msg.message.edit("Playing connect 4: "+playerFaces[0]+"<@"+nextPlayer[0]+">'s turn", new Discord.RichEmbed(msg.message.embeds[0]));
+    msg.message.edit("Playing connect 4: "+playerFaces[currentPieceLoc]+"<@"+nextPlayer[0]+">'s turn", new Discord.RichEmbed(msg.message.embeds[0]));
   }
 }
