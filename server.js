@@ -398,7 +398,6 @@ function addRoles(rubberDuck,msg){
                       + 'To remove a class type "!remove **[CLASS NAME]**"\n'
                       + 'To view the chats for all classes type "!add All-Seer"\nYou can remove this ability with "!remove All-Seer'
                       + '\nDont forget to also view our rules with "!rules"\n'
-                      + 'TAs, Mentors and ALAC tutors should PM "Eli#8092" or "Phi11ipus#4667" to get verified\n'
                       + 'Also if you want to view my code just type !code'
                       );
       return true;
