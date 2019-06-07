@@ -25,9 +25,9 @@ exports.shouldRun = function(eventType, client, msg, config, user){
 var blackCircleEmoji = "⚫";
 var playerFaces = ["😄","😡","👿","🤢","💀","🤖","🐵","🐷"];
 var colEmoji = ["0⃣","1⃣","2⃣","3⃣","4⃣","5⃣","6⃣","7⃣","8⃣","9⃣","🔟","🇦","🇧","🇨","🇩","🇪","🇫","🇬","🇭","🇮"]
-var width = 4;
+var width = 15;
 if(width > 20){width=20;}
-var height = 3;
+var height = 10;
 exports.run = function(eventType, client, msg, config, database, user){
   if(eventType == "message"){
     var titleText = "";
@@ -94,14 +94,19 @@ exports.run = function(eventType, client, msg, config, database, user){
     var regExp = /\d{17,18}/;
     var lastPlayer = regExp.exec(msg.message.content)[0];
     console.log(user.id)
-    // // uncomment this code to limit playing out of turn
-    // if(user.id != lastPlayer){
-    //   return;
-    // }
+
+    // uncomment this code to limit playing out of turn
+    if(user.id != lastPlayer){
+      return;
+    }
+
     var nextPlayer = regExp.exec(msg.message.embeds[0].description.substring(msg.message.embeds[0].description.indexOf(lastPlayer)+lastPlayer.length))
     if(!nextPlayer){
       nextPlayer = regExp.exec(msg.message.embeds[0].description);
     }
+    // msg.message.channel.send("<@"+nextPlayer[0]+">").then(function(sentMsg){
+    //   sentMsg.delete();
+    // })
 
     var currentPieceLoc = msg.message.embeds[0].description.match(/\d{17,18}/g).indexOf(lastPlayer);
     board[currentRow] = board[currentRow].substr(0,loc) + playerFaces[currentPieceLoc] + board[currentRow].substr(loc+1)
@@ -109,7 +114,7 @@ exports.run = function(eventType, client, msg, config, database, user){
     msg.message.embeds[0]//I have no clue why but the program breaks if this line is not here
 
     currentPieceLoc++;
-    console.log(msg.message.embeds[0].description.match(/\d{17,18}/g))
+    // console.log(msg.message.embeds[0].description.match(/\d{17,18}/g))
     if(currentPieceLoc>=msg.message.embeds[0].description.match(/\d{17,18}/g).length){
       currentPieceLoc=0;
     }
@@ -158,7 +163,7 @@ function emojiAtSpot(row, index){
 
 function checkGameOver(board, row, col){
   var emojiToCheck = emojiAtSpot(board[row], col);
-  console.log(row + " " + col)
+  // console.log(row + " " + col)
 
   var hasWon = true;
   for(var i=row+1; i<row+1+3; i++){
@@ -170,7 +175,7 @@ function checkGameOver(board, row, col){
       hasWon = false;
       break;
     }
-    console.log(board[i] + " " +col)
+    // console.log(board[i] + " " +col)
   }
   if(hasWon){console.log("c");return 1;}
 
@@ -179,7 +184,7 @@ function checkGameOver(board, row, col){
   while(i > 0){
     i--;
     if(emojiAtSpot(board[row], i) == emojiToCheck){
-      console.log(emojiToCheck + " " + emojiAtSpot(board[row], i))
+      // console.log(emojiToCheck + " " + emojiAtSpot(board[row], i))
       numInARow++
     }else{
       break;
@@ -210,7 +215,7 @@ function checkGameOver(board, row, col){
   }
   x=col;
   y=row;
-  console.log(col + ","+row + " " + width +" " + height)
+  // console.log(col + ","+row + " " + width +" " + height)
   while(x < width-1 && y < height+3){
     x++;
     y++;

@@ -13,10 +13,10 @@ exports.run = function(eventType, client, member, config){
   var server = client.guilds.get(config.default_server.id);
   var classRoles = config.role_management.addable_roles;
   var roleNames = "**";
-  for(var i=0;i<classRoles.length;i++){
-    roleNames += server.roles.find(role => role.name === classRoles[i]).name
-    if(i<classRoles.length-1){roleNames+="\n";}
-  }
+  // for(var i=0;i<classRoles.length;i++){
+  //   roleNames += server.roles.find(role => role.name === classRoles[i]).name
+  //   if(i<classRoles.length-1){roleNames+="\n";}
+  // }
   roleNames += "**";
   var embedObj = {embed: {
     color: 3447003,

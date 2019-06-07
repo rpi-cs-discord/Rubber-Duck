@@ -8,6 +8,7 @@ exports.shouldRun = function(eventType, client, msg, config, user){
     if(msg.channel.type != "dm" && msg.member.guild.id != config.default_server.id){ return false; }
     if(client.user.id != config.user_ids.rd_id){ return false; }
     // if(msg.channel.type != "dm"){ return false; }
+    if(msg.content.toLowerCase() == "!add"){return false;}
     if(!msg.content.toLowerCase().startsWith("!add")){ return false; }
     return true;
   }else if(eventType == "messageReactionAdd"){
