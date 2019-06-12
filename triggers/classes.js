@@ -18,7 +18,6 @@ exports.run = function(eventType, client, msg, config){
     var classRoles = config.addable_roles;
     var roleNames = "";
     for(var i=0;i<classRoles.length;i++){
-      // roleNames += server.roles.find(role => role.name === classRoles[i]).name
       roleNames += "**";
       roleNames+=" " + classRoles[i].roleName
       roleNames += "**";
@@ -36,8 +35,6 @@ exports.run = function(eventType, client, msg, config){
 
     messageToSend = 'To see the chats for all classes you can also add "**All-Seer**"'
     msg.channel.send(messageToSend, embedObj);
-    // messageToSend += '\nIf you are in a class which is not listed above, please message "@Eli#8092" or "Phi11ipus#4667".'
-    // msg.channel.send(messageToSend);
     return true;
   }else{
     msg.channel.send(config.role_management.anti_spam_message);
