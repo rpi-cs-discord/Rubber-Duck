@@ -11,3 +11,5 @@ node_modules/
 # dont save database files
 archive-channels.json
 database.json
+
+config.json
