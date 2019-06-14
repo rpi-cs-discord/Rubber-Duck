@@ -26,10 +26,10 @@ exports.run = function(eventType, client, msg, config){
   }
 
   if (msg.content.toLowerCase() == 'std::code();' || msg.content.toLowerCase() == '!code' || msg.content.toLowerCase().startsWith('std::code();')) {
-    if(client.user.id != config.user_ids.rd_id){
+    if(client.user.id == config.user_ids.rd_id){
       var messageText = 'My code can be found here: <'+config.github.url+'> \nFeel free to add issues to the issue tracker, or even submit pull requests. Also while you are there why not give us a star. \nRubber Duck is courtesy of "Eli#8092" and "Phi11ipus#4667". If you find any bugs or have a feature suggestion feel free to send one of them a PM.';
       triggerUtils.delaySend(client,msg,messageText,1000);
-    }else if(client.user.id != config.user_ids.rm_id){
+    }else if(client.user.id == config.user_ids.rm_id){
       var messageText = 'Hold up, my code can also be found at that link... Stop trying to take credit for all my hard work!';
       triggerUtils.delaySend(client,msg,messageText,1500);
     }

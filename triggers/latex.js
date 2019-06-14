@@ -19,6 +19,10 @@ exports.shouldRun = function(eventType, client, msg, config){
 
 var request = require("request")
 exports.run = function(eventType, client, msg, config){
+  msg.channel.send("Sorry latex is currently not working. It is being looked into");
+  return;
+
+
   request({
     uri: "http://latex2png.com/",
     method: "POST",
