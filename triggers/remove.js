@@ -29,7 +29,7 @@ exports.run = function(eventType, client, msg, config){
         if(classRoles[i].roleName.toLowerCase() == roleName){
           // todo add message if they already have that role
           msg.channel.send('You have been removed from the class "' + classRoles[i].roleName + '"');
-          server.members.get(msg.author.id).removeRole(server.roles.find(role => role.name === classRoles[i].roleName2).id)
+          server.members.get(msg.author.id).removeRole(server.roles.find(role => role.name === classRoles[i].roleName).id)
           return true;
         }
       }
