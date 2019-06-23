@@ -13,7 +13,7 @@ exports.shouldRun = function(eventType, client, msg, config){
 }
 
 exports.run = function(eventType, client, msg, config){
-  if(msg.channel.type == "dm" || triggerUtils.isRoleManagementChannel(msg.channel.id, config)){
+  if(msg.channel.type == "dm" || triggerUtils.isValidChannel(msg.channel.id, config.role_management.valid_channel_ids)){
     var server = client.guilds.get(config.default_server.id);
 
     if(msg.content.toLowerCase() == "!remove all-seer"){

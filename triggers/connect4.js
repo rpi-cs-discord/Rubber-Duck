@@ -30,10 +30,15 @@ if(width > 20){width=20;}
 var height = 10;
 exports.run = function(eventType, client, msg, config, database, user){
   if(eventType == "message"){
+    if(msg.channel.type == "dm" || triggerUtils.isValidChannel(msg.channel.id, config.games.valid_channel_ids)){
+    }else{
+      return false;
+    }
+
     var titleText = "";
     titleText += playerFaces[0]
     titleText += msg.guild.members.get(msg.author.id).user
-    for(var i=0;i<msg.mentions.members.array().length;i++){
+    for(var i=0;i<msg.mentions.members.array().length && i<playerFaces.length-1;i++){
       titleText+=" vs "
       titleText += playerFaces[1+i]
       titleText += msg.guild.members.get(msg.mentions.members.array()[i].user.id).user

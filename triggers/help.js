@@ -13,7 +13,7 @@ exports.shouldRun = function(eventType, client, msg, config){
 }
 
 exports.run = function(eventType, client, msg, config){
-  if(msg.channel.type == "dm" || triggerUtils.isRoleManagementChannel(msg.channel.id, config)){
+  if(msg.channel.type == "dm" || triggerUtils.isValidChannel(msg.channel.id, config.role_management.valid_channel_ids)){
     msg.channel.send(
                       'To view the available classes type "!classes"\n'
                     + 'To add a class type "!add **[CLASS NAME]**"\n'

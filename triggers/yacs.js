@@ -29,7 +29,11 @@ exports.shouldRun = function(eventType, client, msg, config) {
 const Discord = require('discord.js');
 var request = require("request")
 exports.run = function(eventType, client, msg, config, database, extra) {
-  console.log("Just ran: " + name);
+  if(msg.channel.type == "dm" || triggerUtils.isValidChannel(msg.channel.id, config.yacs.valid_channel_ids)){
+  }else{
+    return false;
+  }
+
   var className = triggerUtils.textAfterGap(msg.content);
 
   var url = "https://rpi.yacs.io/api/v6/listings?filter[longname][match]=" + className
@@ -85,7 +89,7 @@ exports.run = function(eventType, client, msg, config, database, extra) {
             exampleEmbed.addField("Section " + i + ":" + instructors, section.attributes.seats - section.attributes.seats_taken +"/"+ section.attributes.seats, true)
           }
 
-          msg.channel.send(exampleEmbed);
+          msg.channel.send("Please note that !yacs only works in <#"+config.yacs.valid_channel_ids[0]+">",exampleEmbed);
         }
       })
     }

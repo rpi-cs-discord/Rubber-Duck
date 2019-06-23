@@ -60,7 +60,7 @@ exports.run = function(eventType, client, msg, config, database, user){
   var server = client.guilds.get(config.default_server.id);
 
   if(eventType == "message"){
-    if(msg.channel.type == "dm" || triggerUtils.isRoleManagementChannel(msg.channel.id, config)){
+    if(msg.channel.type == "dm" || triggerUtils.isValidChannel(msg.channel.id, config.role_management.valid_channel_ids)){
       var searchTerm = triggerUtils.textAfterGap(msg.content);
       var results = fuse.search(searchTerm);
       console.log(results)
