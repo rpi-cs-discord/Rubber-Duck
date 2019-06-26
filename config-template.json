@@ -1,0 +1,82 @@
+{
+  "development_settings": {
+    "development": true,
+    "triggers_to_run": [
+    ]
+  },
+  "default_server": {
+    "id": "",
+    "welcome_channel_id": ""
+  },
+  "github": {
+    "url": ""
+  },
+  "glitch": {
+    "url": ""
+  },
+  "activity": {
+    "rd_text": "std::code() \\*View code*\\",
+    "rd_type": "playing",
+    "rm_text": "",
+    "rm_type": ""
+  },
+  "user_ids": {
+    "rd_id": "",
+    "rm_id": "",
+    "admin_ids": [
+      "",
+      ""
+    ]
+  },
+  "rdd": {
+    "rdd_channel_id": ""
+  },
+  "role_management": {
+    "anti_spam_message": "To limit spam that command only works in <#> or a PM to me",
+    "valid_channel_ids": [
+      "",
+      ""
+    ],
+    "max_search_results": 5
+  },
+  "yacs":{
+    "valid_channel_ids": [
+      ""
+    ]
+  },
+  "games":{
+    "valid_channel_ids": [
+      ""
+    ]
+  },
+  "minecraft": {
+    "ip": "",
+    "host_discord_id": ""
+  },
+  "logs": {
+    "log_server_id": "",
+    "online_offline_id": "",
+    "dont_log_ids":[""]
+  },
+  "auto_reactions": {
+    "school of computing": [
+      "🇨",
+      "🇴",
+      "🇲",
+      "🇵",
+      "🇺",
+      "🇹",
+      "🇮",
+      "🇳",
+      "🇬"
+    ]
+  },
+  "addable_roles": [
+    {
+      "roleName": "",
+      "department": "",
+      "courseCode": "",
+      "abbreviations": [""]
+    }
+  ]
+}
