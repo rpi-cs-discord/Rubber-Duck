@@ -13,3 +13,5 @@ archive-channels.json
 database.json
 
 config.json
+
+package-lock.json

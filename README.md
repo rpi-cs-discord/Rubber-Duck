@@ -7,12 +7,11 @@ Duck and Cover!! Rubber Duck is more than it's quacked up to be. Waddle we do wi
 
 ## Installation
 ```bash
-$ mkdir discord-bot
+$ mkdir discord-bot #you really need to do this, please dont skip this step
 $ cd discord-bot
 $ git clone https://github.com/rpi-cs-discord/Rubber-Duck.git
 $ cd Rubber-Duck
-$ ./setup.sh
-$ npm install
+$ bash setup.sh
 ```
 After you are done your folder structure should look like this
 ```
@@ -23,12 +22,16 @@ discord-bot
   ├─── node_modules
   │       └─── ...
   ├─── .env
+  ├─── archive-channels.json
+  ├─── config.json
+  ├─── database.json
   └─── package.json
 ```
+The last step is to add the correct data to the config.json file found within the discord-bot folder
+<br /><br />
 
-
-**Please note:** Because of how the bot is currently hosted on glitch.com you have to copy the package.json up one folder so that it contained in the same folder as the project folder you cloned off github.<br />
-All changes to package.json must be made to both versions in order for the bot to correctly work.
+**Please note:** Because of how the bot is currently hosted on glitch.com you will have 2 package.json files in both your inner and outer bot folders<br />
+All changes to package.json must be made to both versions in order for the bot to work correctly. The 2 package.json files contents should always be identical.
 
 ## Features
 
@@ -48,6 +51,10 @@ All changes to package.json must be made to both versions in order for the bot t
 Make sure you are in the outer discord-bot folder and run<br />
 ```
 $ npm start
+```
+You can also use nodemon instead if you want
+```
+$ nodemon start
 ```
 
 ## Main Contributors
