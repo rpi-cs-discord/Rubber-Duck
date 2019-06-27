@@ -124,6 +124,7 @@ exports.emojiMode = function(msg, client, config){
     });
   }
   msgText = msgText.replace(new RegExp("\<:(.*?):[0-9]{18}\>","g"), "")
+  msgText = msgText.replace(new RegExp("\<a:(.*?):[0-9]{18}\>","g"), "")
   msgText = msgText.replace(/\s/g, '');
   if(msgText.length > 0){
     msg.author.send("You sent a message that contained non emoji characters in an emoji only chat. Your message has been removed!")
