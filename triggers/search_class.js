@@ -17,13 +17,6 @@ exports.shouldRun = function(eventType, client, msg, config, user){
     if(client.user.id != config.user_ids.rd_id){ return false; }
     if(msg.message.author.id != config.user_ids.rd_id){return false;}
     if(!msg.message.content.includes("could not find an exact match for")){return false;}
-    // var re = /[0-9]{18}|[0-9]{17}/;
-    // console.log(re.exec(msg.message.content))
-    // if(user.id != re.exec(msg.message.content)[0]){return false;}
-    // console.log("\n\n\n\n\n")
-    // console.log(msg)
-    // console.log("\n\n\n\n\n")
-    // console.log(user)
 
     return true;
   }
@@ -63,7 +56,6 @@ exports.run = function(eventType, client, msg, config, database, user){
     if(msg.channel.type == "dm" || triggerUtils.isValidChannel(msg.channel.id, config.role_management.valid_channel_ids)){
       var searchTerm = triggerUtils.textAfterGap(msg.content);
       var results = fuse.search(searchTerm);
-      console.log(results)
 
       var shownResultsLength = Math.min(results.length, config.role_management.max_search_results)
       shownResultsLength = Math.min(shownResultsLength, emojiNumbers.length);
@@ -72,7 +64,7 @@ exports.run = function(eventType, client, msg, config, database, user){
         msg.channel.send("No Results found for your search: " + searchTerm)
       }else if((results.length>=2 && results[0].score == 0 && results[1].score != 0)
        || results.length==1  && results[0].score == 0){
-        // msg.channel.send("Exact Match Found: " + results[0].item.roleName);
+
         addRole(server, msg, msg.author, results[0].item.roleName)
       }else{
         msg.channel.send("Searching...").then(function(botMsg){
@@ -93,7 +85,6 @@ exports.run = function(eventType, client, msg, config, database, user){
             botMsg.edit(msgToSend);
 
             for (let i = 0; i < shownResultsLength; i++) {
-              console.log(emojiNumbers[i])
               await botMsg.react(emojiNumbers[i]);
             }
             await botMsg.react(noMatchingResultsEmote);
@@ -106,9 +97,7 @@ exports.run = function(eventType, client, msg, config, database, user){
     }
   }else if(eventType == "messageReactionAdd"){
     var re = /[0-9]{18}|[0-9]{17}/;
-    console.log(re.exec(msg.message.content))
     if(user.id != re.exec(msg.message.content)){//wrong user reacting
-      console.log("Users dont match")
       user.send("It looks like you tried to add a course that another user searched for. This however is not a supported way of adding a course. \nIf you still want to add that course feel free to use `!add COURSE NAME`")
       msg.remove(user);
       return;
@@ -120,9 +109,6 @@ exports.run = function(eventType, client, msg, config, database, user){
     }
 
     var re = new RegExp("("+msg._emoji.name+" )(([a-zA-Z]+)-([0-9]+)(\/[0-9]+)? )?(.+)");
-    console.log("here")
-    console.log(re.exec(msg.message.content))
-    // return;
     if(!re.exec(msg.message.content) || msg.count<2){//cannot add extra unrelated reactions
       msg.remove(user);
       return;
@@ -134,7 +120,6 @@ exports.run = function(eventType, client, msg, config, database, user){
       msg.message.clearReactions();
     }, 5000);
 
-    // console.log("adding " + roleToAdd.roleName)
     addRole(server, msg.message, user, roleToAdd.roleName)
   }
 }
@@ -148,6 +133,9 @@ function findByCourseRole(roleName){
 }
 
 function addRole(server, msg, user, roleName){
-  msg.channel.send('You have been added to the class "' + roleName + '"');
-  server.members.get(user.id).addRole(server.roles.find(role => role.name === roleName).id)
+  // server.members.get(user.id).addRole(server.roles.find(role => role.name === roleName).id)
+  msg.guild.fetchMembers().then(function(a){
+    a.members.get(user.id).addRole(server.roles.find(role => role.name === roleName).id)
+    msg.channel.send('You have been added to the class "' + roleName + '"');
+  });
 }
