@@ -19,8 +19,8 @@ exports.shouldRun = function(eventType, client, msg, config){
 
 var request = require("request")
 exports.run = function(eventType, client, msg, config){
-  msg.channel.send("Sorry latex is currently not working. It is being looked into");
-  return;
+  // msg.channel.send("Sorry latex is currently not working. It is being looked into");
+  // return;//I have no idea why I added this it works
 
 
   request({
