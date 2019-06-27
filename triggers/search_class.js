@@ -133,8 +133,10 @@ function findByCourseRole(roleName){
 }
 
 function addRole(server, msg, user, roleName){
+  let roles_server = msg.guild;
+  if (roles_server == null) roles_server = server;
   // server.members.get(user.id).addRole(server.roles.find(role => role.name === roleName).id)
-  msg.guild.fetchMembers().then(function(a){
+  roles_server.fetchMembers().then(function(a){
     a.members.get(user.id).addRole(server.roles.find(role => role.name === roleName).id)
     msg.channel.send('You have been added to the class "' + roleName + '"');
   });
