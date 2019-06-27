@@ -56,6 +56,7 @@ function copyMessage(client,msg,extra,config){
     theUserName +=' (' + msg.author.id + ')';
 
     var theMsg = msg.cleanContent;
+    theMsg = theMsg.replace("||", "\\||")
     msg.mentions.members.forEach(function(member){
       theMsg += " TAGGED: " + member.user.id
     })
