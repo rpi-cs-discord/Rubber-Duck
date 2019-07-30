@@ -16,8 +16,9 @@ exports.shouldRun = function(eventType, client, msg, config){
 }
 
 const fs = require("fs");
-var quacks = JSON.parse(fs.readFileSync('./Rubber-Duck/quacks.json', 'utf8'));//load in quacks from json file
+//load in quacks from fortune file
+var quacks = fs.readFileSync('./Rubber-Duck/quacks.txt', 'utf8').split('\n%\n');
 exports.run = function(eventType, client, msg, config){
-  var messageText = quacks.generic_quacks[Math.floor(Math.random() * quacks.generic_quacks.length)];
+  var messageText = quacks[Math.floor(Math.random() * quacks.length)];
   triggerUtils.delaySend(client,msg,messageText,null);
 }
